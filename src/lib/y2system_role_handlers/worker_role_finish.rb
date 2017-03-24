@@ -20,7 +20,7 @@
 # ------------------------------------------------------------------------------
 
 require "yast"
-require "y2caasp/cfa/salt"
+require "y2caasp/cfa/salt/minion_master_conf"
 
 module Y2SystemRoleHandlers
   # Implement finish handler for the "worker" role
