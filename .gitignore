@@ -1,0 +1,7 @@
+*.pot
+package/*.bz2
+/coverage/
+/doc/
+/nbproject/
+test-driver
+.yardoc/
