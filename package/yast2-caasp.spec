@@ -39,13 +39,6 @@ BuildRequires:  rubygem(rspec)
 
 BuildArch:      noarch
 
-# FIXME: it seems can we cannot move it to macros.yast, the yast-rake-ci is not
-# installed into the chroot, the build fails...
-%bcond_with yast_run_ci_tests
-%if %{with yast_run_ci_tests}
-BuildRequires: rubygem(yast-rake-ci)
-%endif
-
 Summary:        YaST2 - CaaSP Module
 Url:            https://github.com/yast/yast-caasp
 
