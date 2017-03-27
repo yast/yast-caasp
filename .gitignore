@@ -1,6 +1,5 @@
 *.pot
 package/*.bz2
 /coverage/
-/doc/
 test-driver
 .yardoc/
