@@ -9,5 +9,8 @@ ignore:
   - "doc/**/*"
   - "coverage/**/*"
 dictionary:
+  - CaaSP
   - SLE
   - SMT
+  - rubydoc
+  - yardoc
