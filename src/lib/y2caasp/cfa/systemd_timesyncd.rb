@@ -14,14 +14,13 @@ module Y2Caasp
       end
 
       def ntp_servers=(servers = "")
+        data["Time"] ||= ::CFA::AugeasTree.new
         tree = data["Time"]
-        if !tree
-          tree = ::CFA::AugeasTree.new
-          data["Time"] = tree
-        end
 
         ntp_servers = ::CFA::AugeasTree.new
-        servers.split(" ").each {|s| ntp_servers.add("value[]", s) }
+
+        values = ntp_servers.collection("value")
+        servers.split(" ").each {|s| values.add(s) }
 
         generic_set("NTP", ntp_servers, tree)
       end
