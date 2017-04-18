@@ -15,30 +15,24 @@ describe Y2SystemRoleHandlers::WorkerRoleFinish do
     allow(::Installation::SystemRole).to receive("find")
       .with("worker_role").and_return(role)
     allow(Y2Caasp::CFA::MinionMasterConf).to receive(:new).and_return(conf)
+    allow(handler).to receive(:enable_timesync_service)
   end
 
   describe ".run" do
-    context "if the worker role controller node location contains dashes" do
-      it "surrounds the url with single quotes before save" do
-        expect(role).to receive(:[]).with("controller_node").and_return("controller-url")
-        expect(conf).to receive(:master=).with("'controller-url'")
-        handler.run
-      end
-    end
-
-    context "if the worker role controller node location does not contain dashes" do
-      it "saves the url as defined" do
-        expect(role).to receive(:[]).with("controller_node").and_return("controller")
-        expect(conf).to receive(:master=).with("controller")
-        handler.run
-      end
-    end
-
     it "saves the controller node location into the minion master.conf file" do
-      expect(role).to receive(:[]).with("controller_node").and_return("controller")
-      expect(conf).to receive(:master=).with("controller")
-      expect(conf).to receive(:save)
+      allow(handler).to receive(:configure_systemd_timesync).with("controller")
 
+      expect(role).to receive(:[]).with("controller_node").and_return("controller")
+      expect(handler).to receive(:configure_salt_minion).with("controller")
+
+      handler.run
+    end
+
+    it "configures systemd timesync ntp server with the controller node location" do
+      allow(handler).to receive(:configure_salt_minion).with("controller")
+      expect(role).to receive(:[]).with("controller_node").and_return("controller")
+
+      expect(handler).to receive(:configure_systemd_timesync).with("controller")
       handler.run
     end
   end
