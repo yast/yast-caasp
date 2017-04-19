@@ -16,12 +16,12 @@ describe Y2SystemRoleHandlers::WorkerRoleFinish do
       .with("worker_role").and_return(role)
     allow(Y2Caasp::CFA::MinionMasterConf).to receive(:new).and_return(conf)
     allow(handler).to receive(:enable_timesync_service)
+    allow(handler).to receive(:configure_salt_minion).with("controller")
+    allow(handler).to receive(:configure_systemd_timesync).with("controller")
   end
 
   describe ".run" do
     it "saves the controller node location into the minion master.conf file" do
-      allow(handler).to receive(:configure_systemd_timesync).with("controller")
-
       expect(role).to receive(:[]).with("controller_node").and_return("controller")
       expect(handler).to receive(:configure_salt_minion).with("controller")
 
@@ -29,10 +29,16 @@ describe Y2SystemRoleHandlers::WorkerRoleFinish do
     end
 
     it "configures systemd timesync ntp server with the controller node location" do
-      allow(handler).to receive(:configure_salt_minion).with("controller")
       expect(role).to receive(:[]).with("controller_node").and_return("controller")
 
       expect(handler).to receive(:configure_systemd_timesync).with("controller")
+      handler.run
+    end
+
+    it "sets systemd-timesync.service to be enabled during installation" do
+      expect(role).to receive(:[]).with("controller_node").and_return("controller")
+      expect(handler).to receive(:enable_timesync_service)
+
       handler.run
     end
   end
