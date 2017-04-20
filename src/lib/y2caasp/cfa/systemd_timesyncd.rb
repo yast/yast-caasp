@@ -42,7 +42,7 @@ module Y2Caasp
       #
       # @params [Array<String>] ntp servers to be used by timesyncd
       # @return [Boolean] returns true if added/modified
-      def ntp_servers=(servers = [])
+      def ntp_servers=(servers)
         tree = data["Time"] ||= ::CFA::AugeasTree.new
         ntp_servers = ::CFA::AugeasTree.new
 

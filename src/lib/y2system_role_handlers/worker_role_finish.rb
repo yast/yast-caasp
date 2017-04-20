@@ -71,7 +71,7 @@ module Y2SystemRoleHandlers
     end
 
     def enable_timesync_service
-      ::Installation::Services.enabled.concat(["systemd-timesyncd"])
+      ::Installation::Services.enabled << "systemd-timesyncd"
     end
   end
 end
