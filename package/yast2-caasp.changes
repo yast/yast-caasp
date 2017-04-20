@@ -1,6 +1,13 @@
 -------------------------------------------------------------------
+Thu Apr 20 09:20:29 WEST 2017 - knut.anderssen@suse.com
+
+- fate#323250
+  - Added systemd timesyncd configuration in worker role handler.
+- 1.0.1
+
+-------------------------------------------------------------------
 Thu Mar 23 21:46:43 UTC 2017 - igonzalezsosa@suse.com
 
 - Initial version
-- 1.0.0 
+- 1.0.0
 
