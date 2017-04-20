@@ -6,16 +6,17 @@ require "cfa/memory_file"
 
 
 def timesyncd_disk_content
-  path = File.expand_path("../../../../fixtures/cfa/timesyncd", __FILE__)
   File.read(path)
 end
 
 describe Y2Caasp::CFA::SystemdTimesyncd do
   subject(:timesyncd) { Y2Caasp::CFA::SystemdTimesyncd.new(file_handler: file) }
 
-  let(:file) { CFA::MemoryFile.new(timesyncd_disk_content) }
+  let(:content) { File.read(File.join(FIXTURES_PATH, "cfa", "timesyncd")) }
+  let(:file) { CFA::MemoryFile.new(content) }
 
-  describe ".ntp_servers=" do
+
+  describe "#ntp_servers=" do
     it "sets the given ntp servers in the 'NTP' variable under 'Time' section " do
       timesyncd.load
       timesyncd.ntp_servers = "master"
