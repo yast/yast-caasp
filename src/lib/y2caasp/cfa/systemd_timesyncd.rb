@@ -40,14 +40,14 @@ module Y2Caasp
 
       # Sets the NTP variable in [Time] section with the given servers
       #
-      # @params [String] ntp servers to be used by timesyncd
+      # @params [Array<String>] ntp servers to be used by timesyncd
       # @return [Boolean] returns true if added/modified
-      def ntp_servers=(servers = "")
+      def ntp_servers=(servers = [])
         tree = data["Time"] ||= ::CFA::AugeasTree.new
         ntp_servers = ::CFA::AugeasTree.new
 
         values = ntp_servers.collection("value")
-        servers.split(" ").each {|s| values.add(s) }
+        servers.each {|s| values.add(s) }
 
         generic_set("NTP", ntp_servers, tree)
       end

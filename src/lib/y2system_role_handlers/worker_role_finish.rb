@@ -53,7 +53,7 @@ module Y2SystemRoleHandlers
       # FIXME: the cobblersettings lense does not support dashes in the url
       # without single quotes, we need to use a custom lense for salt conf.
       # As Salt can use also 'url' just use in case of dashed.
-      master_conf.master = master.include?("-") ? "'#{master}'" : master
+      master_conf.master = master
       master_conf.save
     end
 
@@ -66,7 +66,7 @@ module Y2SystemRoleHandlers
         log.info("Systemd timesync.conf file does not exist, it will be created")
       end
 
-      timesync_conf.ntp_servers = master
+      timesync_conf.ntp_servers = [master]
       timesync_conf.save
     end
 

@@ -19,7 +19,7 @@ describe Y2Caasp::CFA::SystemdTimesyncd do
   describe "#ntp_servers=" do
     it "sets the given ntp servers in the 'NTP' variable under 'Time' section " do
       timesyncd.load
-      timesyncd.ntp_servers = "master"
+      timesyncd.ntp_servers = ["master"]
       timesyncd.save
 
       expect(file.content).to include(

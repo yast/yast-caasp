@@ -23,6 +23,15 @@ module Y2Caasp
       def initialize(file_handler: nil)
         super(PARSER, PATH, file_handler: file_handler)
       end
+
+      # FIXME: This class should we moved to be easy reused by other modules as for example
+      # yast-configuration-management is also defining it
+      def master=(master_name)
+        # FIXME: the cobblersettings lense does not support dashes in the value
+        # without single quotes, we need to use a custom lense for salt conf.
+        # As Salt can use also 'master' just use in case of dashed.
+        data["master"] = master_name.include?("-") ? "'#{master_name}'" : master_name
+      end
     end
   end
 end
