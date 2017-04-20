@@ -10,6 +10,10 @@ doing some final configuration and enabling some services.
 
 ## Worker role
 
-When installing a system with this role, the Salt minion will be configured to
-use a master server specified by the user. The file `/etc/salt/minion.d/master`
-will be created (or updated if it exists) using the given value.
+When installing a system with this role, a master server will be specified by the user.
+
+The Salt minion will be configured using that master server, which means that the file
+`/etc/salt/minion.d/master` will be created (or updated if it exists) using the given value.
+
+The master server will be used also as a ntp server. The handler will configure systemd timesyncd
+as the ntp client modifying the `/etc/systemd/timesyncd` NTP attribute with the given value.
