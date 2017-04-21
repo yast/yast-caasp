@@ -23,6 +23,7 @@ require "yast"
 require "yast2/execute"
 require "installation/system_role"
 require "installation/services"
+require "cfa/ntp_conf"
 
 module Y2SystemRoleHandlers
   # Implement finish handler for the "dashboard" role
@@ -45,13 +46,6 @@ module Y2SystemRoleHandlers
       Yast::Execute.on_target(ACTIVATION_SCRIPT_PATH)
     end
 
-    # NTP server common attributes
-    NTP_SERVER_ATTRS = { "type" => "server", "options" => "iburst" }.freeze
-    # Restrict options
-    NTP_RESTRICT_ATTRS = { "options" => "default limited kod nomodify notrap nopeer noquery" }.freeze
-    # Restrict map
-    NTP_RESTRICT_MAP = { "-4" => NTP_RESTRICT_ATTRS, "-6" => NTP_RESTRICT_ATTRS }.freeze
-
     # Configure the NTP server
     #
     # @see update_ntp_conf
@@ -67,15 +61,21 @@ module Y2SystemRoleHandlers
     # * Set the server specified in the role configuration ({ntp_servers})
     # * Add restrict rules to allow queries
     def update_ntp_conf
-      Yast.import "NtpClient"
-      Yast::NtpClient.Read
-      Yast::NtpClient.write_only = true
-      Yast::NtpClient.restrict_map = NTP_RESTRICT_MAP
-      Yast::NtpClient.ntp_records.reject! { |r| r["type"] == "server" }
+      return unless role["ntp_servers"]
+      ntp_conf = CFA::NtpConf.new
+      ntp_conf.load
+      ntp_conf.records.delete_if { |r| r.type == "server" } # clean-up servers if any
       role["ntp_servers"].each do |server|
-        Yast::NtpClient.ntp_records << NTP_SERVER_ATTRS.merge("address" => server)
+        ntp_conf.records << server_record(server)
       end
-      Yast::NtpClient.Write
+      ntp_conf.save
+    end
+
+    def server_record(server)
+      CFA::NtpConf::Record.record_class("server").new.tap do |record|
+        record.value = server
+        record.options = ["iburst"]
+      end
     end
 
     # Add the ntpd service to the list of services to enable
