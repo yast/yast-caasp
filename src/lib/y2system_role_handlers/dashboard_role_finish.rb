@@ -48,7 +48,7 @@ module Y2SystemRoleHandlers
     # NTP server common attributes
     NTP_SERVER_ATTRS = { "type" => "server", "options" => "iburst" }.freeze
     # Restrict options
-    NTP_RESTRICT_ATTRS = { "options" => "default kod nomodify notrap nopeer noquery" }.freeze
+    NTP_RESTRICT_ATTRS = { "options" => "default limited kod nomodify notrap nopeer noquery" }.freeze
     # Restrict map
     NTP_RESTRICT_MAP = { "-4" => NTP_RESTRICT_ATTRS, "-6" => NTP_RESTRICT_ATTRS }.freeze
 

@@ -43,7 +43,7 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
         handler.run
         expect(Yast::NtpClient.restrict_map.keys.sort).to eq(["-4", "-6"])
         expect(Yast::NtpClient.restrict_map.values.uniq.first)
-          .to eq("options" => "default kod nomodify notrap nopeer noquery")
+          .to eq("options" => "default limited kod nomodify notrap nopeer noquery")
       end
 
       it "writes the NTP configuration" do
