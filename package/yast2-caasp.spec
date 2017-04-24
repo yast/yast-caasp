@@ -17,7 +17,7 @@
 
 
 Name:           yast2-caasp
-Version:        1.0.1
+Version:        1.0.2
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -29,10 +29,12 @@ License:        GPL-2.0
 # SystemRoleHandlersRunner
 Requires:       yast2-installation >= 3.1.217.30
 Requires:       yast2
+Requires:       yast2-ntp-client   >= 3.1.28.1
 
 # SystemRoleHandlersRunner
 BuildRequires:  yast2-installation >= 3.1.217.30
 BuildRequires:  yast2
+BuildRequires:  yast2-ntp-client   >= 3.1.28.1
 BuildRequires:  yast2-devtools >= 3.1.39
 BuildRequires:  rubygem(yast-rake) >= 0.2.13
 BuildRequires:  rubygem(rspec)

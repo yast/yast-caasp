@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Fri Apr 21 15:51:51 UTC 2017 - igonzalezsosa@suse.com
+
+- Configure the administration node as a NTP server/client
+  (FATE#323249)
+- 1.0.2 
+
+-------------------------------------------------------------------
 Thu Apr 20 09:20:29 WEST 2017 - knut.anderssen@suse.com
 
 - fate#323250
