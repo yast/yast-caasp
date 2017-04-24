@@ -35,7 +35,7 @@ module Y2SystemRoleHandlers
 
     def run
       run_activation_script
-      set_up_ntp
+      setup_ntp
     end
 
   protected
@@ -49,7 +49,7 @@ module Y2SystemRoleHandlers
     # Configure the NTP server
     #
     # @see update_ntp_conf
-    def set_up_ntp
+    def setup_ntp
       return unless role["ntp_servers"]
       log.info "Updating the NTP daemon configuration with servers: #{role["ntp_servers"]}"
       update_ntp_conf
