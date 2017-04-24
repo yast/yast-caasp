@@ -58,8 +58,7 @@ module Y2SystemRoleHandlers
 
     # Update the ntp.conf file
     #
-    # * Set the server specified in the role configuration ({ntp_servers})
-    # * Add restrict rules to allow queries
+    # Set the server specified in the role configuration ({ntp_servers})
     def update_ntp_conf
       return unless role["ntp_servers"]
       ntp_conf = CFA::NtpConf.new
@@ -74,14 +73,14 @@ module Y2SystemRoleHandlers
     def server_record(server)
       CFA::NtpConf::Record.record_class("server").new.tap do |record|
         record.value = server
-        record.options = ["iburst"]
+        record.options = ["iburst"] # speed up initial synchronization
       end
     end
 
     # Add the ntpd service to the list of services to enable
     def enable_ntpd_service
-      return if ::Installation::Services.enabled.include?("ntpd")
-      ::Installation::Services.enabled.concat(["ntpd"])
+      enabled = ::Installation::Services.enabled
+      enabled << "ntpd" unless enabled.include?("ntpd")
     end
 
     # Dashboard role
