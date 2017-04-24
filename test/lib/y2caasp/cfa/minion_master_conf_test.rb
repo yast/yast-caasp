@@ -7,7 +7,7 @@ require "cfa/memory_file"
 describe Y2Caasp::CFA::MinionMasterConf do
   subject(:config) { Y2Caasp::CFA::MinionMasterConf.new(file_handler: file) }
 
-  let(:content) { File.read(File.join(FIXTURES_PATH, "cfa", "minion.d","master.conf")) }
+  let(:content) { File.read(File.join(FIXTURES_PATH, "cfa", "minion.d", "master.conf")) }
   let(:file) { CFA::MemoryFile.new(content) }
 
   before do

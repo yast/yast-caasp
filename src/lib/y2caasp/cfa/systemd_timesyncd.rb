@@ -27,7 +27,6 @@ module Y2Caasp
   module CFA
     # Represents systemd timesyncd config file.
     class SystemdTimesyncd < ::CFA::BaseModel
-
       # Configuration parser
       PARSER = ::CFA::AugeasParser.new("systemd.lns")
       # Patch to configuration file
@@ -47,11 +46,10 @@ module Y2Caasp
         ntp_servers = ::CFA::AugeasTree.new
 
         values = ntp_servers.collection("value")
-        servers.each {|s| values.add(s) }
+        servers.each { |s| values.add(s) }
 
         generic_set("NTP", ntp_servers, tree)
       end
     end
   end
 end
-
