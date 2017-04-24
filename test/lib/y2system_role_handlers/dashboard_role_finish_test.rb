@@ -3,8 +3,6 @@
 require_relative "../../test_helper"
 require "y2system_role_handlers/dashboard_role_finish"
 
-Yast.import "NtpClient"
-
 describe Y2SystemRoleHandlers::DashboardRoleFinish do
   subject(:handler) { described_class.new }
 
@@ -25,8 +23,6 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
   before do
     allow(::Installation::SystemRole).to receive(:find)
       .with("dashboard_role").and_return(role)
-    allow(Yast::NtpClient).to receive(:Read)
-    allow(Yast::NtpClient).to receive(:Write)
     allow(Yast::Execute).to receive(:on_target)
   end
 
