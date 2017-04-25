@@ -43,6 +43,7 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
         handler.run
         records = ntp_conf.records.select { |r| r.type == "server" }
         expect(records.map(&:value)).to eq([ntp_server])
+        expect(records.first.options).to eq(["iburst"])
       end
 
       it "writes the NTP configuration" do

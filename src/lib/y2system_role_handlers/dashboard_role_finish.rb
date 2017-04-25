@@ -73,6 +73,7 @@ module Y2SystemRoleHandlers
     def server_record(server)
       CFA::NtpConf::Record.record_class("server").new.tap do |record|
         record.value = server
+        record.options = ["iburst"]
       end
     end
 
