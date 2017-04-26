@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Apr 28 09:26:30 UTC 2017 - igonzalezsosa@suse.com
+
+- Move specific CaaSP code from yast2-installation 
+- 1.0.4
+
+-------------------------------------------------------------------
 Thu Apr 27 11:56:47 UTC 2017 - igonzalezsosa@suse.com
 
 - Add the iburst option to the NTP server configuration
