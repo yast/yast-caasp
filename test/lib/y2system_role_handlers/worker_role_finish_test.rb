@@ -8,7 +8,7 @@ describe Y2SystemRoleHandlers::WorkerRoleFinish do
   subject(:handler) { described_class.new }
   let(:role) { instance_double("::Installation::SystemRole") }
   let(:conf) do
-    instance_double("::Y2Caasp::CFA::MinionMasterConf", load: true, save: true)
+    instance_double("Y2Caasp::CFA::MinionMasterConf", load: true, save: true)
   end
 
   before do
