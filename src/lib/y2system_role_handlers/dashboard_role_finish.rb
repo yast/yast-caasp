@@ -70,7 +70,9 @@ module Y2SystemRoleHandlers
       ntp_conf.save
     end
 
+    # Options for each defined server
     SERVER_OPTIONS = ["iburst"].freeze
+
     # Build a server record
     def server_record(server)
       CFA::NtpConf::Record.record_class("server").new.tap do |record|
