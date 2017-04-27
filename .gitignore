@@ -3,3 +3,4 @@ package/*.bz2
 /coverage/
 test-driver
 .yardoc/
+doc/
