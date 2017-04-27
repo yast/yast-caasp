@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Apr 27 11:56:47 UTC 2017 - igonzalezsosa@suse.com
+
+- Add the iburst option to the NTP server configuration
+  (FATE#323249)
+- 1.0.3
+
+-------------------------------------------------------------------
 Fri Apr 21 15:51:51 UTC 2017 - igonzalezsosa@suse.com
 
 - Configure the administration node as a NTP server/client
