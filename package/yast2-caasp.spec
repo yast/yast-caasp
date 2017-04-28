@@ -1,7 +1,7 @@
 #
 # spec file for package yast2-caasp
 #
-# Copyright (c) 2017 SUSE LINUX Products GmbH, Nuernberg, Germany.
+# Copyright (c) 2017 SUSE LINUX GmbH, Nuernberg, Germany.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -22,9 +22,6 @@ Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source0:        %{name}-%{version}.tar.bz2
-
-Group:          System/YaST
-License:        GPL-2.0
 
 # SystemRoleHandlersRunner
 Requires:       yast2
@@ -48,13 +45,15 @@ BuildRequires:  yast2-registration >= 3.1.190
 BuildRequires:  yast2-country      >= 3.1.33.1
 Requires:       yast2-country      >= 3.1.33.1
 
-BuildRequires:  yast2-devtools >= 3.1.39
-BuildRequires:  rubygem(yast-rake) >= 0.2.13
+BuildRequires:  yast2-devtools     >= 3.1.39
 BuildRequires:  rubygem(rspec)
+BuildRequires:  rubygem(yast-rake) >= 0.2.13
 
 BuildArch:      noarch
 
 Summary:        YaST2 - CaaSP Module
+License:        GPL-2.0
+Group:          System/YaST
 Url:            https://github.com/yast/yast-caasp
 
 %description
