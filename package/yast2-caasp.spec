@@ -44,6 +44,9 @@ BuildRequires:  yast2-registration >= 3.1.190
 # new keyboard layout cwm widget
 BuildRequires:  yast2-country      >= 3.1.33.1
 Requires:       yast2-country      >= 3.1.33.1
+# SlpServices.find
+Requires:      yast2-slp
+BuildRequires: yast2-slp
 
 BuildRequires:  yast2-devtools     >= 3.1.39
 BuildRequires:  rubygem(rspec)
