@@ -3,3 +3,14 @@ engines:
   # the /usr/share/YaST2/data/devtools/data/rubocop_yast_style.yml file
   rubocop:
     enabled: false
+
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby
+
+ratings:
+  paths:
+  - "**.rb"
+  - Rakefile
