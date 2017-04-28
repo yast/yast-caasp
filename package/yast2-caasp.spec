@@ -1,5 +1,5 @@
 #
-# spec file for package yast2-registration
+# spec file for package yast2-caasp
 #
 # Copyright (c) 2017 SUSE LINUX Products GmbH, Nuernberg, Germany.
 #
