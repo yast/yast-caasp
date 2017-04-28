@@ -80,10 +80,10 @@ Authors:
 %{yast_clientdir}/*.rb
 %dir %{yast_libdir}/y2caasp
 %dir %{yast_libdir}/y2caasp/cfa
-%dir %{yast_libdir}/y2caasp/widgets
-%dir %{yast_libdir}/y2caasp/clients
 %{yast_libdir}/y2caasp/cfa/*.rb
+%dir %{yast_libdir}/y2caasp/widgets
 %{yast_libdir}/y2caasp/widgets/*.rb
+%dir %{yast_libdir}/y2caasp/clients
 %{yast_libdir}/y2caasp/clients/*.rb
 %dir %{yast_libdir}/y2system_role_handlers
 %{yast_libdir}/y2system_role_handlers/*.rb

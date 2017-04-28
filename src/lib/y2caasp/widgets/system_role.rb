@@ -75,6 +75,7 @@ module Y2Caasp
       end
     end
 
+    # Widget to select and set specific system role options
     class SystemRole < CWM::ComboBox
       ROLE_WIDGETS = {
         "worker_role"    => [:controller_node],

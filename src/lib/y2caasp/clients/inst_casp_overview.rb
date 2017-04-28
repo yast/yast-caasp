@@ -44,7 +44,7 @@ module Y2Caasp
     include Yast::I18n
     include Yast::UIShortcuts
 
-    def run
+    def run # rubocop:disable MethodLength, AbcSize, CyclomaticComplexity, PerceivedComplexity
       Yast.import "UI"
       Yast.import "Language"
       Yast.import "Mode"
@@ -149,12 +149,19 @@ module Y2Caasp
 
     # Returns a pair with UI widget-set for the dialog and widgets that can
     # block installation
-    def content
-      controller_node = Installation::Widgets::HidingPlace.new(Y2Caasp::Widgets::ControllerNode.new)
-      ntp_server = Installation::Widgets::HidingPlace.new(Y2Caasp::Widgets::NtpServer.new(ntp_servers))
+    def content # rubocop:disable MethodLength
+      controller_node = Installation::Widgets::HidingPlace.new(
+        Y2Caasp::Widgets::ControllerNode.new
+      )
+      ntp_server = Installation::Widgets::HidingPlace.new(
+        Y2Caasp::Widgets::NtpServer.new(ntp_servers)
+      )
 
       kdump_overview = Y2Caasp::Widgets::Overview.new(client: "kdump_proposal")
-      bootloader_overview = Y2Caasp::Widgets::Overview.new(client: "bootloader_proposal", redraw: [kdump_overview])
+      bootloader_overview = Y2Caasp::Widgets::Overview.new(
+        client: "bootloader_proposal",
+        redraw: [kdump_overview]
+      )
 
       quadrant_layout(
         upper_left:  VBox(
@@ -170,7 +177,10 @@ module Y2Caasp
           Tune::Widgets::SystemInformation.new
         ),
         upper_right: VBox(
-          Y2Caasp::Widgets::Overview.new(client: "partitions_proposal", redraw: [bootloader_overview]),
+          Y2Caasp::Widgets::Overview.new(
+            client: "partitions_proposal",
+            redraw: [bootloader_overview]
+          ),
           bootloader_overview
         ),
         lower_right: VBox(
