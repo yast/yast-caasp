@@ -62,11 +62,6 @@ Url:            https://github.com/yast/yast-caasp
 %description
 Containers as a Service Platform (CaaSP) specific module.
 
-
-Authors:
---------
-    YaST Team <yast-devel@opensuse.org>
-
 %prep
 %setup -n %{name}-%{version}
 
