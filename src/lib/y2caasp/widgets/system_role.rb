@@ -134,7 +134,7 @@ module Y2Caasp
     private
 
       def roles_help_text
-        ::Installation::SystemRole.roles.map do |role|
+        ::Installation::SystemRole.all.map do |role|
           role.label + "\n\n" + role.description
         end.join("\n\n\n")
       end

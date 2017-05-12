@@ -10,7 +10,11 @@ describe Y2Caasp::Widgets::SystemRole do
 
   let(:controller_node_widget) { double("controller_node_widget") }
   let(:ntp_server_widget) { double("ntp_server_widget") }
-  let(:test_role) { Installation::SystemRole.new(id: "test_role", label: "Test role") }
+  let(:test_role) do
+    Installation::SystemRole.new(
+      id: "test_role", label: "Test role", description: "Test description"
+    )
+  end
 
   before do
     allow(Installation::SystemRole).to receive(:all).and_return([test_role])
@@ -98,6 +102,17 @@ describe Y2Caasp::Widgets::SystemRole do
     it "adapts role services" do
       expect(test_role).to receive(:adapt_services)
       widget.store
+    end
+  end
+
+  describe "#help" do
+    before do
+      allow(Yast::ProductControl).to receive(:GetTranslatedText).with("roles_help")
+        .and_return("help text")
+    end
+
+    it "contains role names" do
+      expect(widget.help).to match(/help text.+Test role/m)
     end
   end
 end
