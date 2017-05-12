@@ -114,7 +114,7 @@ module Y2Caasp
       end
 
       def items
-        ::Installation::SystemRole.roles.map do |role|
+        ::Installation::SystemRole.all.map do |role|
           [role.id, role.label]
         end
       end
