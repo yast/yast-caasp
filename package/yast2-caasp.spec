@@ -17,7 +17,7 @@
 
 
 Name:           yast2-caasp
-Version:        1.0.4
+Version:        1.1.0
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -27,23 +27,23 @@ Source0:        %{name}-%{version}.tar.bz2
 Requires:       yast2
 BuildRequires:  yast2
 # Overview widget
-Requires:       yast2-installation >= 3.1.217.34
-BuildRequires:  yast2-installation >= 3.1.217.34
+Requires:       yast2-installation >= 3.2.38
+BuildRequires:  yast2-installation >= 3.2.38
 # CFA class
-Requires:       yast2-ntp-client   >= 3.1.28.1
-BuildRequires:  yast2-ntp-client   >= 3.1.28.1
+Requires:       yast2-ntp-client   >= 3.2.6
+BuildRequires:  yast2-ntp-client   >= 3.2.6
 # System information widget
-Requires:       yast2-tune         >= 3.1.10
-BuildRequires:  yast2-tune         >= 3.1.10
+Requires:       yast2-tune         >= 3.2.0
+BuildRequires:  yast2-tune         >= 3.2.0
 # Password widget
-Requires:       yast2-users        >= 3.1.57.7
-BuildRequires:  yast2-users        >= 3.1.57.7
+Requires:       yast2-users        >= 3.2.10
+BuildRequires:  yast2-users        >= 3.2.10
 # Registration widget
-Requires:       yast2-registration >= 3.1.190
-BuildRequires:  yast2-registration >= 3.1.190
+Requires:       yast2-registration >= 3.2.1
+BuildRequires:  yast2-registration >= 3.2.1
 # new keyboard layout cwm widget
-BuildRequires:  yast2-country      >= 3.1.33.1
-Requires:       yast2-country      >= 3.1.33.1
+BuildRequires:  yast2-country      >= 3.2.10
+Requires:       yast2-country      >= 3.2.10
 # SlpServices.find
 Requires:      yast2-slp
 BuildRequires: yast2-slp

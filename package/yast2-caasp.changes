@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Fri May 12 14:29:47 UTC 2017 - igonzalezsosa@suse.com
+
+- Adapt the system roles widget to yast2-installation 3.2.x
+  (bsc#1038854)
+- 1.1.0
+
+-------------------------------------------------------------------
 Fri Apr 28 09:26:30 UTC 2017 - igonzalezsosa@suse.com
 
 - Move specific CaaSP code from yast2-installation 

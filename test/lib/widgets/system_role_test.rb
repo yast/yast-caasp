@@ -10,7 +10,15 @@ describe Y2Caasp::Widgets::SystemRole do
 
   let(:controller_node_widget) { double("controller_node_widget") }
   let(:ntp_server_widget) { double("ntp_server_widget") }
-  Yast::ProductControl.GetTranslatedText("roles_caption")
+  let(:test_role) do
+    Installation::SystemRole.new(
+      id: "test_role", label: "Test role", description: "Test description"
+    )
+  end
+
+  before do
+    allow(Installation::SystemRole).to receive(:all).and_return([test_role])
+  end
 
   describe "#label" do
     before do
@@ -64,6 +72,47 @@ describe Y2Caasp::Widgets::SystemRole do
         expect(controller_node_widget).to receive(:hide)
         widget.handle
       end
+    end
+  end
+
+  describe "#items" do
+    it "return a list of roles ids and labels" do
+      expect(widget.items).to eq([[test_role.id, test_role.label]])
+    end
+  end
+
+  describe "#store" do
+    before do
+      allow(widget).to receive(:value).and_return(test_role.id)
+      allow(test_role).to receive(:overlay_features)
+      allow(test_role).to receive(:adapt_services)
+    end
+
+    it "selects the current role" do
+      expect(Installation::SystemRole).to receive(:select).with(test_role.id)
+        .and_call_original
+      widget.store
+    end
+
+    it "overlays role features" do
+      expect(test_role).to receive(:overlay_features)
+      widget.store
+    end
+
+    it "adapts role services" do
+      expect(test_role).to receive(:adapt_services)
+      widget.store
+    end
+  end
+
+  describe "#help" do
+    before do
+      allow(Yast::ProductControl).to receive(:GetTranslatedText).with("roles_help")
+        .and_return("help text")
+    end
+
+    it "contains role names" do
+      expect(widget.help).to match(/help text.+Test role/m)
     end
   end
 end
