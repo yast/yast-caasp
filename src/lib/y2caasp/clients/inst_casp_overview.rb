@@ -165,10 +165,10 @@ module Y2Caasp
 
       quadrant_layout(
         upper_left:  VBox(
-          ::Registration::Widgets::RegistrationCode.new,
-          ::Users::PasswordWidget.new(little_space: true),
           # use english us as default keyboard layout
-          ::Y2Country::Widgets::KeyboardSelectionCombo.new("english-us")
+          ::Y2Country::Widgets::KeyboardSelectionCombo.new("english-us"),
+          ::Users::PasswordWidget.new(little_space: true),
+          ::Registration::Widgets::RegistrationCode.new
         ),
         lower_left:  VBox(
           Y2Caasp::Widgets::SystemRole.new(controller_node, ntp_server),
