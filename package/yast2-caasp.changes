@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Jun  5 18:37:34 UTC 2017 - knut.anderssen@suse.com
+
+- Rearrange of keyboard and registration code widgets (bsc#1022768)
+- 1.1.1
+
+-------------------------------------------------------------------
 Fri May 12 14:29:47 UTC 2017 - igonzalezsosa@suse.com
 
 - Adapt the system roles widget to yast2-installation 3.2.x
@@ -24,7 +30,7 @@ Fri Apr 21 15:51:51 UTC 2017 - igonzalezsosa@suse.com
 
 - Configure the administration node as a NTP server/client
   (FATE#323249)
-- 1.0.2 
+- 1.0.2
 
 -------------------------------------------------------------------
 Thu Apr 20 09:20:29 WEST 2017 - knut.anderssen@suse.com
