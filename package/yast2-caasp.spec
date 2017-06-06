@@ -17,7 +17,7 @@
 
 
 Name:           yast2-caasp
-Version:        1.1.0
+Version:        1.1.1
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
