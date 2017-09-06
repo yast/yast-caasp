@@ -41,13 +41,12 @@ module Y2Caasp
       # @params default_servers [Array<String>] List of servers
       def initialize(default_servers = [])
         @default_servers = default_servers
+        textdomain "caasp"
       end
 
-      # intentional no translation for CaaSP
-      #
       # @return [String] Widget's label
       def label
-        "NTP Servers"
+        _("NTP Servers")
       end
 
       # Store the value of the input field if validates
@@ -61,8 +60,8 @@ module Y2Caasp
         self.value = saved_servers.join(" ")
       end
 
-      NOT_VALID_SERVERS_MESSAGE = "Not valid location for the NTP servers:\n%{servers}" \
-        "\n\nPlease, enter a valid IP or Hostname".freeze
+      NOT_VALID_SERVERS_MESSAGE = N_("Not valid location for the NTP servers:\n%{servers}" \
+        "\n\nPlease, enter a valid IP or Hostname").freeze
       # Validate input
       #
       # * All specified IPs or hostnames should be valid
@@ -74,7 +73,7 @@ module Y2Caasp
         invalid_servers = servers.reject { |v| Yast::IP.Check(v) || Yast::Hostname.CheckFQ(v) }
         return true if invalid_servers.empty?
         Yast::Popup.Error(
-          format(NOT_VALID_SERVERS_MESSAGE, servers: invalid_servers.join(", "))
+          format(_(NOT_VALID_SERVERS_MESSAGE), servers: invalid_servers.join(", "))
         )
 
         false
@@ -94,12 +93,12 @@ module Y2Caasp
       # @return [Boolean] true if user wants to skip it; false otherwise.
       def skip_ntp_server?
         Yast::Popup.AnyQuestion(
-          "NTP Servers",
+          _("NTP Servers"),
           # TRANSLATORS: error message for invalid ntp server name/address
-          "You have not configured an NTP server. This may lead to\n" \
+          _("You have not configured an NTP server. This may lead to\n" \
           "your cluster not functioning properly or at all.\n" \
           "Proceed with caution and at your own risk.\n\n" \
-          "Would you like to continue with the installation?",
+          "Would you like to continue with the installation?"),
           Yast::Label.YesButton,
           Yast::Label.NoButton,
           :yes

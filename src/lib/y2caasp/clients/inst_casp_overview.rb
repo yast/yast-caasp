@@ -54,7 +54,7 @@ module Y2Caasp
       Yast.import "InstShowInfo"
       Yast.import "SlpService"
 
-      textdomain "installation"
+      textdomain "caasp"
 
       # Simplified work-flow do not contain language proposal, but have software one.
       # So avoid false positive detection of language change
