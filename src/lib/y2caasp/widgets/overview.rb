@@ -38,7 +38,7 @@ module Y2Caasp
       # responsible for not creating circular dependencies.
       #   eg. "bootloader_proposal"
       def initialize(client:, redraw: [])
-        textdomain "installation"
+        textdomain "caasp"
         @proposal_client = client
         @replace_point = "rp_" + client
         # by default widget_id is the class name; must differentiate instances

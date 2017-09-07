@@ -35,9 +35,12 @@ module Y2Caasp
     # which must be a valid IP or FQDN.
     # bsc#1032057: old name: Controller Node, new name: Administration Node.
     class ControllerNode < CWM::InputField
+      def initialize
+        textdomain "caasp"
+      end
+
       def label
-        # intentional no translation for CAASP
-        "Administration Node"
+        _("Administration Node")
       end
 
       # It stores the value of the input field if validates
@@ -85,7 +88,7 @@ module Y2Caasp
       attr_reader :widgets_map
 
       def initialize(controller_node_widget, ntp_server_widget)
-        textdomain "installation"
+        textdomain "caasp"
         @widgets_map = {
           controller_node: controller_node_widget,
           ntp_server:      ntp_server_widget
