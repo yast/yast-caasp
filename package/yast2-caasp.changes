@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Sep  7 12:06:32 UTC 2017 - jreidinger@suse.com
+
+- Add language selection (FATE#323837)
+- Mark all user visible strings for translation (FATE#323837)
+- 1.1.1.1
+
+-------------------------------------------------------------------
 Mon Jun  5 18:37:34 UTC 2017 - knut.anderssen@suse.com
 
 - Rearrange of keyboard and registration code widgets (bsc#1022768)
