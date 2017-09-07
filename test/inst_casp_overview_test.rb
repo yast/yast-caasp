@@ -49,11 +49,20 @@ end
 module Y2Country
   module Widgets
     class KeyboardSelectionCombo < CWM::ComboBox
-      def initialize(_language)
+      def initialize(_language = "def")
       end
 
       def label
         "Keyboard"
+      end
+    end
+
+    class LanguageSelection < CWM::ComboBox
+      def initialize(emit_event: false)
+      end
+
+      def label
+        "language"
       end
     end
   end

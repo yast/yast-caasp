@@ -22,6 +22,7 @@
 require "uri"
 require "users/widgets"
 require "y2country/widgets"
+require "y2country/widgets/language_selection"
 require "ui/widgets"
 require "tune/widgets"
 require "registration/widgets/registration_code"
@@ -54,7 +55,7 @@ module Y2Caasp
       Yast.import "InstShowInfo"
       Yast.import "SlpService"
 
-      textdomain "installation"
+      textdomain "caasp"
 
       # Simplified work-flow do not contain language proposal, but have software one.
       # So avoid false positive detection of language change
@@ -72,13 +73,16 @@ module Y2Caasp
         ret = Yast::CWM.show(
           content,
           # Title for installation overview dialog
-          caption:      _("Installation Overview"),
+          caption:        _("Installation Overview"),
           # Button label: start the installation
-          next_button:  _("Install"),
+          next_button:    _("Install"),
           # do not show abort and back button
-          abort_button: "",
-          back_button:  ""
+          abort_button:   "",
+          back_button:    "",
+          skip_store_for: [:redraw]
         )
+
+        next if ret == :redraw
 
         # Currently no other return value is expected, behavior can
         # be unpredictable if something else is received - raise
@@ -150,6 +154,8 @@ module Y2Caasp
     # Returns a pair with UI widget-set for the dialog and widgets that can
     # block installation
     def content # rubocop:disable MethodLength
+      return @content if @content
+
       controller_node = Installation::Widgets::HidingPlace.new(
         Y2Caasp::Widgets::ControllerNode.new
       )
@@ -163,10 +169,11 @@ module Y2Caasp
         redraw: [kdump_overview]
       )
 
-      quadrant_layout(
+      @content = quadrant_layout(
         upper_left:  VBox(
+          ::Y2Country::Widgets::LanguageSelection.new(emit_event: true),
           # use english us as default keyboard layout
-          ::Y2Country::Widgets::KeyboardSelectionCombo.new("english-us"),
+          ::Y2Country::Widgets::KeyboardSelectionCombo.new,
           ::Users::PasswordWidget.new(little_space: true),
           ::Registration::Widgets::RegistrationCode.new
         ),
