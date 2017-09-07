@@ -22,6 +22,7 @@
 require "uri"
 require "users/widgets"
 require "y2country/widgets"
+require "y2country/widgets/language_selection"
 require "ui/widgets"
 require "tune/widgets"
 require "registration/widgets/registration_code"
