@@ -33,6 +33,8 @@ module Y2Caasp
   module Widgets
     # This widget is responsible of validating and storing the NTP server to use.
     class NtpServer < CWM::InputField
+      extend Yast::I18n
+
       # @return [Array<String>] List of default servers
       attr_reader :default_servers
 
