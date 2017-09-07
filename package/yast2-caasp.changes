@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Sep  7 12:06:32 UTC 2017 - jreidinger@suse.com
+
+- Add language selection (FATE#323837)
+- Mark all user visible strings for translation (FATE#323837)
+- 4.0.0
+
+-------------------------------------------------------------------
 Mon Sep  4 12:25:38 UTC 2017 - knut.anderssen@suse.com
 
 - Fix keyboard selection widget requirement (fate#322276)

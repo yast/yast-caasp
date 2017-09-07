@@ -17,7 +17,7 @@
 
 
 Name:           yast2-caasp
-Version:        1.1.2
+Version:        4.0.0
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -41,9 +41,9 @@ BuildRequires:  yast2-users        >= 3.2.10
 # Registration widget
 Requires:       yast2-registration >= 3.2.1
 BuildRequires:  yast2-registration >= 3.2.1
-# new keyboard layout cwm widget
-BuildRequires:  yast2-country      >= 3.3.2
-Requires:       yast2-country      >= 3.3.2
+# new language selection cwm widget
+BuildRequires:  yast2-country      >= 4.0.0
+Requires:       yast2-country      >= 4.0.0
 # SlpServices.find
 Requires:      yast2-slp
 BuildRequires: yast2-slp
