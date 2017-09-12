@@ -116,8 +116,8 @@ module Y2Caasp
 
   private
 
-    # location of the info.txt file (containing the Beta warning)
-    INFO_FILE = "/info.txt".freeze
+    # location of the info file (containing the Beta warning)
+    INFO_FILE = "/README.BETA".freeze
 
     # Specific services that needs to be enabled on CAaSP see (FATE#321738)
     # It is additional services to the ones defined for role.
