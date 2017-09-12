@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Tue Sep 12 09:03:53 UTC 2017 - knut.anderssen@suse.com
+
+- Replace /info.txt by /README.BETA as beta file to be shown
+  (bsc#1047060).
+- 4.0.1
+
+-------------------------------------------------------------------
 Thu Sep  7 12:06:32 UTC 2017 - jreidinger@suse.com
 
 - Add language selection (FATE#323837)
