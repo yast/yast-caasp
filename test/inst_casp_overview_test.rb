@@ -69,6 +69,8 @@ module Y2Country
 end
 
 describe ::Y2Caasp::InstCaspOverview do
+  let(:beta_file) { "/README.BETA" }
+
   describe "#run" do
     let(:ntp_servers) { [] }
 
@@ -82,7 +84,7 @@ describe ::Y2Caasp::InstCaspOverview do
       allow(Yast::WFM).to receive(:CallFunction)
         .with("inst_doit", []).and_return(:next)
       allow(File).to receive(:exist?).and_call_original
-      allow(File).to receive(:exist?).with("/info.txt").and_return(false)
+      allow(File).to receive(:exist?).with(beta_file).and_return(false)
       allow(Yast::SlpService).to receive(:all).and_return(ntp_servers)
     end
 
@@ -122,16 +124,16 @@ describe ::Y2Caasp::InstCaspOverview do
       expect(::Installation::Services.enabled).to include("cloud-init")
     end
 
-    it "displays the /info.txt file if it exists" do
-      expect(File).to receive(:exist?).with("/info.txt").and_return(true)
-      expect(Yast::InstShowInfo).to receive(:show_info_txt).with("/info.txt").and_return(true)
+    it "displays the BETA file if it exists" do
+      expect(File).to receive(:exist?).with(beta_file).and_return(true)
+      expect(Yast::InstShowInfo).to receive(:show_info_txt).with(beta_file).and_return(true)
       expect(Yast::CWM).to receive(:show).and_return(:next)
 
       subject.run
     end
 
-    it "does not try displaying the /info.txt file if it does not exist" do
-      expect(File).to receive(:exist?).with("/info.txt").and_return(false)
+    it "does not try displaying the beta file if it does not exist" do
+      expect(File).to receive(:exist?).with(beta_file).and_return(false)
       expect(Yast::InstShowInfo).to_not receive(:show_info_txt)
       expect(Yast::CWM).to receive(:show).and_return(:next)
 
