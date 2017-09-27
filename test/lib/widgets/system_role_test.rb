@@ -12,7 +12,7 @@ describe Y2Caasp::Widgets::SystemRole do
   let(:ntp_server_widget) { double("ntp_server_widget") }
   let(:test_role) do
     Installation::SystemRole.new(
-      id: "test_role", label: "Test role", description: "Test description"
+      id: "test_role", order: "100", label: "Test role", description: "Test description"
     )
   end
 

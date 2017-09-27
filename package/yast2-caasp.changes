@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Wed Sep 27 10:03:25 UTC 2017 - jreidinger@suse.com
+
+- fix building with roles with order (related to fix for
+  bsc#1049297)
+- 4.0.2
+
+-------------------------------------------------------------------
 Tue Sep 12 09:03:53 UTC 2017 - knut.anderssen@suse.com
 
 - Replace /info.txt by /README.BETA as beta file to be shown
