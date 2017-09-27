@@ -5,7 +5,7 @@ require "y2caasp/widgets/ntp_server"
 
 describe Y2Caasp::Widgets::NtpServer do
   subject(:widget) { Y2Caasp::Widgets::NtpServer.new }
-  let(:dashboard_role) { ::Installation::SystemRole.new(id: "dashboard_role") }
+  let(:dashboard_role) { ::Installation::SystemRole.new(id: "dashboard_role", order: "100") }
 
   before do
     allow(::Installation::SystemRole).to receive(:find)

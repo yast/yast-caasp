@@ -15,7 +15,7 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
   end
 
   let(:role) do
-    ::Installation::SystemRole.new(id: "dashboard_role").tap do |role|
+    ::Installation::SystemRole.new(id: "dashboard_role", order: "100").tap do |role|
       role["ntp_servers"] = ntp_servers
     end
   end

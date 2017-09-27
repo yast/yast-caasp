@@ -5,7 +5,7 @@ require_relative "test_helper"
 require "y2caasp/widgets/system_role"
 
 describe ::Y2Caasp::Widgets::ControllerNode do
-  let(:worker_role) { ::Installation::SystemRole.new(id: "worker_role") }
+  let(:worker_role) { ::Installation::SystemRole.new(id: "worker_role", order: "100") }
 
   before do
     allow(subject).to receive(:role).and_return(worker_role)
