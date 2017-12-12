@@ -10,8 +10,8 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
   let(:ntp_servers) { [ntp_server] }
 
   before do
-    stub_const("CFA::NtpConf::PATH", FIXTURES_PATH.join("ntp.conf").to_s)
-    allow(CFA::NtpConf).to receive(:new).and_return(ntp_conf)
+    stub_const("CFA::ChronyConf::PATH", FIXTURES_PATH.join("chrony.conf").to_s)
+    allow(CFA::ChronyConf).to receive(:new).and_return(ntp_conf)
   end
 
   let(:role) do
@@ -27,7 +27,7 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
   end
 
   describe "#run" do
-    let(:ntp_conf) { CFA::NtpConf.new }
+    let(:ntp_conf) { CFA::ChronyConf.new }
 
     before do
       allow(ntp_conf).to receive(:save)
@@ -41,9 +41,9 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
     context "when a NTP server is specified" do
       it "adds the server to the configuration" do
         handler.run
-        records = ntp_conf.records.select { |r| r.type == "server" }
-        expect(records.map(&:value)).to eq([ntp_server])
-        expect(records.map(&:options)).to eq([["iburst"]])
+        records = ntp_conf.pools
+        expect(records.keys).to eq([ntp_server])
+        expect(records.values).to eq([{ "iburst" => nil }])
       end
 
       it "writes the NTP configuration" do
@@ -51,9 +51,9 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
         handler.run
       end
 
-      it "sets the ntpd service to be enabled" do
+      it "sets the chronyd service to be enabled" do
         handler.run
-        expect(::Installation::Services.enabled).to include("ntpd")
+        expect(::Installation::Services.enabled).to include("chronyd")
       end
     end
 
@@ -61,7 +61,7 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
       let(:ntp_servers) { nil }
 
       it "does not modify NTP configuration" do
-        expect(CFA::NtpConf).to_not receive(:new)
+        expect(CFA::ChronyConf).to_not receive(:new)
         handler.run
       end
     end
