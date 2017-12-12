@@ -23,7 +23,7 @@ require "yast"
 require "yast2/execute"
 require "installation/system_role"
 require "installation/services"
-require "cfa/ntp_conf"
+require "cfa/chrony_conf"
 
 module Y2SystemRoleHandlers
   # Implement finish handler for the "dashboard" role
@@ -52,39 +52,28 @@ module Y2SystemRoleHandlers
     def setup_ntp
       return unless role["ntp_servers"]
       log.info "Updating the NTP daemon configuration with servers: #{role["ntp_servers"]}"
-      update_ntp_conf
-      enable_ntpd_service
+      update_chrony_conf
+      enable_service
     end
 
-    # Update the ntp.conf file
+    # Update the chrony.conf file
     #
     # Set the server specified in the role configuration ({ntp_servers})
-    def update_ntp_conf
+    def update_chrony_conf
       return unless role["ntp_servers"]
-      ntp_conf = CFA::NtpConf.new
-      ntp_conf.load
-      ntp_conf.records.delete_if { |r| r.type == "server" } # clean-up servers if any
+      chrony_conf = CFA::ChronyConf.new
+      chrony_conf.load
+      chrony_conf.clear_pools
       role["ntp_servers"].each do |server|
-        ntp_conf.records << server_record(server)
+        chrony_conf.add_pool(server)
       end
-      ntp_conf.save
-    end
-
-    # Options for each defined server
-    SERVER_OPTIONS = ["iburst"].freeze
-
-    # Build a server record
-    def server_record(server)
-      CFA::NtpConf::Record.record_class("server").new.tap do |record|
-        record.value = server
-        record.options = SERVER_OPTIONS
-      end
+      chrony_conf.save
     end
 
     # Add the ntpd service to the list of services to enable
-    def enable_ntpd_service
+    def enable_service
       enabled = ::Installation::Services.enabled
-      enabled << "ntpd" unless enabled.include?("ntpd")
+      enabled << "chronyd" unless enabled.include?("chronyd")
     end
 
     # Dashboard role

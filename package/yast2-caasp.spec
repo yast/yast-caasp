@@ -29,9 +29,9 @@ BuildRequires:  yast2
 # Overview widget
 Requires:       yast2-installation >= 3.2.38
 BuildRequires:  yast2-installation >= 3.2.38
-# CFA class
-Requires:       yast2-ntp-client   >= 3.2.6
-BuildRequires:  yast2-ntp-client   >= 3.2.6
+# chrony support
+Requires:       yast2-ntp-client   >= 4.0.3
+BuildRequires:  yast2-ntp-client   >= 4.0.3
 # System information widget
 Requires:       yast2-tune         >= 3.2.0
 BuildRequires:  yast2-tune         >= 3.2.0
