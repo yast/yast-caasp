@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Tue Jan 30 10:36:58 UTC 2018 - igonzalezsosa@suse.com
+
+- Handle product features overlay in a proper way (bsc#1077038).
+- 4.0.4
+
+-------------------------------------------------------------------
 Tue Dec 12 13:16:49 UTC 2017 - jreidinger@suse.com
 
 - Use chrony instead of ntp (FATE#323432)
