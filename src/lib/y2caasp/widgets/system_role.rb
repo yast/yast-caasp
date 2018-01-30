@@ -26,6 +26,7 @@ require "installation/system_role"
 require "y2caasp/widgets/ntp_server"
 
 Yast.import "ProductControl"
+Yast.import "ProductFeatures"
 Yast.import "IP"
 Yast.import "Hostname"
 
@@ -130,6 +131,7 @@ module Y2Caasp
         log.info "Applying system role '#{value}'"
         role = ::Installation::SystemRole.select(value)
 
+        Yast::ProductFeatures.ClearOverlay
         role.overlay_features
         role.adapt_services
       end

@@ -95,6 +95,7 @@ describe Y2Caasp::Widgets::SystemRole do
     end
 
     it "overlays role features" do
+      expect(Yast::ProductFeatures).to receive(:ClearOverlay)
       expect(test_role).to receive(:overlay_features)
       widget.store
     end
