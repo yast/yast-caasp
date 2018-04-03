@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Tue Apr  3 14:09:26 CEST 2018 - schubi@suse.de
+
+- Showing license confirmation. (Fate#324476)
+- 1.1.1.2
+
+-------------------------------------------------------------------
 Thu Sep  7 12:06:32 UTC 2017 - jreidinger@suse.com
 
 - Add language selection (FATE#323837)
