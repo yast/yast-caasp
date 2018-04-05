@@ -80,7 +80,7 @@ describe ::Y2Caasp::InstCaspOverview do
       allow(Yast::Language).to receive(:language).and_return("en_US")
       allow(Yast::WFM).to receive(:CallFunction).and_return({})
       allow(Yast::WFM).to receive(:CallFunction)
-        .with("inst_doit", []).and_return(:next)
+        .with("inst_doit", [{ "show_license" => true }]).and_return(:next)
       allow(File).to receive(:exist?).and_call_original
       allow(File).to receive(:exist?).with("/info.txt").and_return(false)
       allow(Yast::SlpService).to receive(:all).and_return(ntp_servers)

@@ -102,7 +102,7 @@ module Y2Caasp
             _("Software proposal failed. Cannot proceed with installation.\n%s") % d["warning"]
           )
         # continue only if confirmed
-        elsif Yast::WFM.CallFunction("inst_doit", []) == :next
+        elsif Yast::WFM.CallFunction("inst_doit", [{ "show_license" => true }]) == :next
           break
         end
       end
