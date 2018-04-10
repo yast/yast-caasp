@@ -17,7 +17,7 @@
 
 
 Name:           yast2-caasp
-Version:        4.0.4
+Version:        4.0.5
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -53,6 +53,10 @@ BuildRequires:  rubygem(rspec)
 BuildRequires:  rubygem(yast-rake) >= 0.2.13
 
 BuildArch:      noarch
+
+# SUSEConnect does not build for i586 and s390 and is not supported on those architectures
+# bsc#1088552 so also yast2-registration is not there.
+ExcludeArch:    %ix86 s390
 
 Summary:        YaST2 - CaaSP Module
 License:        GPL-2.0

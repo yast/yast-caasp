@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Tue Apr 10 13:42:01 UTC 2018 - jreidinger@suse.com
+
+- Do not build on 32-bit architecture as some dependencies are not
+  available there (bsc#1088852) 
+- 4.0.5
+
+-------------------------------------------------------------------
 Tue Jan 30 10:36:58 UTC 2018 - igonzalezsosa@suse.com
 
 - Handle product features overlay in a proper way (bsc#1077038).
