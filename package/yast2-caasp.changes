@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon Aug 20 16:49:53 CEST 2018 - schubi@suse.de
+
+- Switched license in spec file from SPDX2 to SPDX3 format.
+
+-------------------------------------------------------------------
 Tue Apr 10 13:42:01 UTC 2018 - jreidinger@suse.com
 
 - Do not build on 32-bit architecture as some dependencies are not

@@ -59,7 +59,7 @@ BuildArch:      noarch
 ExcludeArch:    %ix86 s390
 
 Summary:        YaST2 - CaaSP Module
-License:        GPL-2.0
+License:        GPL-2.0-only
 Group:          System/YaST
 Url:            https://github.com/yast/yast-caasp
 
