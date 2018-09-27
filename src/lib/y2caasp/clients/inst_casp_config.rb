@@ -26,7 +26,6 @@ require "tune/widgets"
 
 require "y2caasp/widgets/overview"
 require "installation/widgets/hiding_place"
-require "y2caasp/widgets/system_role"
 require "y2caasp/widgets/ntp_server"
 require "installation/services"
 
@@ -45,57 +44,35 @@ module Y2Caasp
       Yast.import "UI"
       Yast.import "Mode"
       Yast.import "CWM"
-      Yast.import "Popup"
-      Yast.import "Pkg"
-      Yast.import "InstShowInfo"
-      Yast.import "SlpService"
+      Yast.import "Wizard"
 
       textdomain "caasp"
+
+      # FIXME: handle going back
 
       # We do not need to create a wizard dialog in installation, but it's
       # helpful when testing all manually on a running system
       Yast::Wizard.CreateDialog if separate_wizard_needed?
-
-      # show the Beta warning if it exists
-      Yast::InstShowInfo.show_info_txt(INFO_FILE) if File.exist?(INFO_FILE)
 
       ret = nil
       loop do
         ret = Yast::CWM.show(
           content,
           # Title for installation overview dialog
-          caption:        _("Installation Overview"),
-          # Button label: start the installation
-          next_button:    _("Install"),
-          # do not show abort and back button
-          abort_button:   "",
-          back_button:    "",
+          caption:        _("Node Configuration"),
           skip_store_for: [:redraw]
         )
 
         next if ret == :redraw
 
+        break if ret == :next
+
+        # FIXME: handle going back
+
         # Currently no other return value is expected, behavior can
         # be unpredictable if something else is received - raise
         # RuntimeError
         raise "Unexpected return value" if ret != :next
-
-        # do software proposal
-        d = Yast::WFM.CallFunction("software_proposal",
-          [
-            "MakeProposal",
-            { "simple_mode" => true }
-          ])
-        # report problems with sofware proposal
-        if [:blocker, :fatal].include?(d["warning_level"])
-          # %s is a problem description
-          Yast::Popup.Error(
-            _("Software proposal failed. Cannot proceed with installation.\n%s") % d["warning"]
-          )
-        # continue only if confirmed
-        elsif Yast::WFM.CallFunction("inst_doit", []) == :next
-          break
-        end
       end
 
       add_casp_services
@@ -106,9 +83,6 @@ module Y2Caasp
     end
 
   private
-
-    # location of the info file (containing the Beta warning)
-    INFO_FILE = "/README.BETA".freeze
 
     # Specific services that needs to be enabled on CAaSP see (FATE#321738)
     # It is additional services to the ones defined for role.
@@ -142,22 +116,16 @@ module Y2Caasp
       )
     end
 
-    # Returns a pair with UI widget-set for the dialog and widgets that can
-    # block installation
     def content # rubocop:disable MethodLength
       return @content if @content
 
       controller_node = Installation::Widgets::HidingPlace.new(
         Y2Caasp::Widgets::ControllerNode.new
       )
-      ntp_server = Installation::Widgets::HidingPlace.new(
-        Y2Caasp::Widgets::NtpServer.new(ntp_servers)
-      )
 
-      kdump_overview = Y2Caasp::Widgets::Overview.new(client: "kdump_proposal")
-      bootloader_overview = Y2Caasp::Widgets::Overview.new(
-        client: "bootloader_proposal",
-        redraw: [kdump_overview]
+      ntp_server = Installation::Widgets::HidingPlace.new(
+        # FIXME: preselect from the DHCP response
+        Y2Caasp::Widgets::NtpServer.new([])
       )
 
       @content = quadrant_layout(
@@ -172,14 +140,11 @@ module Y2Caasp
         ),
         upper_right: VBox(
           Y2Caasp::Widgets::Overview.new(
-            client: "partitions_proposal",
-            redraw: [bootloader_overview]
-          ),
-          bootloader_overview
+            client: "partitions_proposal"
+          )
         ),
         lower_right: VBox(
-          Y2Caasp::Widgets::Overview.new(client: "network_proposal"),
-          kdump_overview
+          Y2Caasp::Widgets::Overview.new(client: "network_proposal")
         )
       )
     end
@@ -187,28 +152,6 @@ module Y2Caasp
     # Returns whether we need/ed to create new UI Wizard
     def separate_wizard_needed?
       Yast::Mode.normal
-    end
-
-    # Regexp to extract the URL from a SLP URL
-    # For instance, match 1 for "service:ntp://ntp.suse.de:123,65535"
-    # will be "ntp://ntp.suse.de:123"
-    SERVICE_REGEXP = %r{\Aservice:(ntp://[^,]+)}
-    # SLP identifier for NTP
-    NTP_SLP_SERVICE = "ntp".freeze
-    # Discover NTP servers through SLP
-    #
-    # @return [Array<String>] NTP server names
-    def ntp_servers
-      Yast::SlpService.all(NTP_SLP_SERVICE).each_with_object([]) do |service, servers|
-        url = service.slp_url[SERVICE_REGEXP, 1]
-        begin
-          host = URI(url).host
-        rescue URI::InvalidURIError, ArgumentError
-          log.warn "#{url.inspect} is not a valid URI"
-        else
-          servers << host if host
-        end
-      end
     end
   end
 end
