@@ -21,11 +21,8 @@
 
 require "uri"
 require "users/widgets"
-require "y2country/widgets/keyboard_selection"
-require "y2country/widgets/language_selection"
 require "ui/widgets"
 require "tune/widgets"
-require "registration/widgets/registration_code"
 
 require "y2caasp/widgets/overview"
 require "installation/widgets/hiding_place"
@@ -36,18 +33,16 @@ require "installation/services"
 module Y2Caasp
   # This library provides a simple dialog for setting
   # - the password for the system administrator (root)
-  # - the keyboard layout
   # This dialog does not write the password to the system,
   # only stores it in UsersSimple module,
   # to be written during inst_finish.
-  class InstCaspOverview
+  class InstCaspConfig
     include Yast::Logger
     include Yast::I18n
     include Yast::UIShortcuts
 
     def run # rubocop:disable MethodLength, AbcSize, CyclomaticComplexity, PerceivedComplexity
       Yast.import "UI"
-      Yast.import "Language"
       Yast.import "Mode"
       Yast.import "CWM"
       Yast.import "Popup"
@@ -56,10 +51,6 @@ module Y2Caasp
       Yast.import "SlpService"
 
       textdomain "caasp"
-
-      # Simplified work-flow do not contain language proposal, but have software one.
-      # So avoid false positive detection of language change
-      Yast::Pkg.SetPackageLocale(Yast::Language.language)
 
       # We do not need to create a wizard dialog in installation, but it's
       # helpful when testing all manually on a running system
@@ -171,11 +162,7 @@ module Y2Caasp
 
       @content = quadrant_layout(
         upper_left:  VBox(
-          ::Y2Country::Widgets::LanguageSelection.new(emit_event: true),
-          # use english us as default keyboard layout
-          ::Y2Country::Widgets::KeyboardSelectionCombo.new,
-          ::Users::PasswordWidget.new(little_space: true),
-          ::Registration::Widgets::RegistrationCode.new
+          ::Users::PasswordWidget.new(little_space: true)
         ),
         lower_left:  VBox(
           Y2Caasp::Widgets::SystemRole.new(controller_node, ntp_server),
