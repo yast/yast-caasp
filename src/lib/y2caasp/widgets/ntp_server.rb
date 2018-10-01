@@ -53,12 +53,12 @@ module Y2Caasp
 
       # Store the value of the input field if validates
       def store
-        role["ntp_servers"] = servers
+        role["ntp_servers"] = servers if role
       end
 
       # Initializes the widget's value
       def init
-        saved_servers = role["ntp_servers"] || default_servers
+        saved_servers = (role && role["ntp_servers"]) || default_servers
         self.value = saved_servers.join(" ")
       end
 
@@ -109,6 +109,7 @@ module Y2Caasp
 
       # Return the dashboard role
       def role
+        # FIXME: remove this hardcoded role
         ::Installation::SystemRole.find("dashboard_role")
       end
     end
