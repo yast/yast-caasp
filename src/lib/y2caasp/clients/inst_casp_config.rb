@@ -22,9 +22,7 @@
 require "uri"
 require "users/widgets"
 require "ui/widgets"
-require "tune/widgets"
 
-require "y2caasp/widgets/overview"
 require "installation/widgets/hiding_place"
 require "y2caasp/widgets/ntp_server"
 require "installation/services"
@@ -53,6 +51,8 @@ module Y2Caasp
       # We do not need to create a wizard dialog in installation, but it's
       # helpful when testing all manually on a running system
       Yast::Wizard.CreateDialog if separate_wizard_needed?
+
+      log.info("Current role: #{current_role}")
 
       ret = nil
       loop do
@@ -128,24 +128,12 @@ module Y2Caasp
         Y2Caasp::Widgets::NtpServer.new([])
       )
 
-      @content = quadrant_layout(
-        upper_left:  VBox(
-          ::Users::PasswordWidget.new(little_space: true)
-        ),
-        lower_left:  VBox(
+      @content = VBox(
+        VBox(
           Y2Caasp::Widgets::SystemRole.new(controller_node, ntp_server),
           controller_node,
-          ntp_server,
-          Tune::Widgets::SystemInformation.new
+          ntp_server
         ),
-        upper_right: VBox(
-          Y2Caasp::Widgets::Overview.new(
-            client: "partitions_proposal"
-          )
-        ),
-        lower_right: VBox(
-          Y2Caasp::Widgets::Overview.new(client: "network_proposal")
-        )
       )
     end
 
