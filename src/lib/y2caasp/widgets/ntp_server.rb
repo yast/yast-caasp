@@ -48,7 +48,8 @@ module Y2Caasp
 
       # @return [String] Widget's label
       def label
-        _("NTP Servers")
+        # TRANSLATORS: input field label
+        _("N&TP Servers (comma or space separated)")
       end
 
       # Store the value of the input field if validates
@@ -79,6 +80,16 @@ module Y2Caasp
         )
 
         false
+      end
+
+      def help
+        # TRANSLATORS: a help text for the NTP server input field
+        _("<h3>NTP Servers</h3>") +
+          # TRANSLATORS: a help text for the NTP server input field
+          _("<p>Enter the host name or the IP address of the NTP server which will be used for " \
+            "synchronizing the time on this machine</p>") +
+          # TRANSLATORS: a help text for the NTP server input field
+          _("<p>Use comma (,) or space to separate multiple values.</p>")
       end
 
     private

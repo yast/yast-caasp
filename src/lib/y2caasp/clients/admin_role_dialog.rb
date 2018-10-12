@@ -43,8 +43,6 @@ module Y2Caasp
 
       textdomain "caasp"
 
-      # FIXME: handle going back
-
       # We do not need to create a wizard dialog in installation, but it's
       # helpful when testing all manually on a running system
       Yast::Wizard.CreateDialog if separate_wizard_needed?
@@ -59,10 +57,7 @@ module Y2Caasp
         )
 
         next if ret == :redraw
-
-        break if ret == :next
-
-        # FIXME: handle going back
+        break if [:back, :next, :abort].include?(ret)
 
         # Currently no other return value is expected, behavior can
         # be unpredictable if something else is received - raise
@@ -71,7 +66,7 @@ module Y2Caasp
       end
 
       # FIXME: still valid?
-      add_casp_services
+      add_casp_services if ret == :next
 
       Yast::Wizard.CloseDialog if separate_wizard_needed?
 
@@ -94,9 +89,11 @@ module Y2Caasp
     def content # rubocop:disable MethodLength
       return @content if @content
 
-      @content = VBox(
+      @content = HSquash(
+        MinWidth(50,
         # FIXME: preselect from the DHCP response
         Y2Caasp::Widgets::NtpServer.new
+      )
       )
     end
 
