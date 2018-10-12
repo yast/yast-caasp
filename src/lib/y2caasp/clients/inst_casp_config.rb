@@ -38,7 +38,7 @@ module Y2Caasp
     include Yast::I18n
     include Yast::UIShortcuts
 
-    def run # rubocop:disable MethodLength, AbcSize, CyclomaticComplexity, PerceivedComplexity
+    def run
       Yast.import "UI"
       Yast.import "Mode"
       Yast.import "CWM"
@@ -116,7 +116,7 @@ module Y2Caasp
       )
     end
 
-    def content # rubocop:disable MethodLength
+    def content
       return @content if @content
 
       controller_node = Installation::Widgets::HidingPlace.new(
@@ -133,7 +133,7 @@ module Y2Caasp
           Y2Caasp::Widgets::SystemRole.new(controller_node, ntp_server),
           controller_node,
           ntp_server
-        ),
+        )
       )
     end
 

@@ -35,7 +35,7 @@ module Y2Caasp
     include Yast::I18n
     include Yast::UIShortcuts
 
-    def run # rubocop:disable MethodLength, AbcSize, CyclomaticComplexity, PerceivedComplexity
+    def run # rubocop:disable CyclomaticComplexity
       Yast.import "UI"
       Yast.import "Mode"
       Yast.import "CWM"
@@ -86,14 +86,13 @@ module Y2Caasp
       ::Installation::Services.enabled.concat(CASP_SERVICES)
     end
 
-    def content # rubocop:disable MethodLength
+    def content
       return @content if @content
 
       @content = HSquash(
         MinWidth(50,
-        # FIXME: preselect from the DHCP response
-        Y2Caasp::Widgets::NtpServer.new
-      )
+          # FIXME: preselect from the DHCP response
+          Y2Caasp::Widgets::NtpServer.new)
       )
     end
 
@@ -101,6 +100,5 @@ module Y2Caasp
     def separate_wizard_needed?
       Yast::Mode.normal
     end
-
   end
 end
