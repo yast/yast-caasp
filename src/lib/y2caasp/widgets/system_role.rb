@@ -48,12 +48,12 @@ module Y2Caasp
       #
       # @see #validate
       def store
-        role["controller_node"] = value
+        role["controller_node"] = value if role
       end
 
       # The input field is initialized with previous stored value
       def init
-        self.value = role["controller_node"]
+        self.value = role ? role["controller_node"] : ""
       end
 
       # It returns true if the value is a valid IP or a valid FQDN, if not it
@@ -72,10 +72,18 @@ module Y2Caasp
         false
       end
 
+      def help
+        # TRANSLATORS: a help text for the admin node input field
+        _("<h3>Administration Node</h3>") +
+          # TRANSLATORS: a help text for the admin node input field
+          _("<p>Enter the host name or the IP address of the administration node " \
+            "to which this node will be connected to.</p>")
+      end
+
     private
 
       def role
-        ::Installation::SystemRole.find("worker_role")
+        ::Installation::SystemRole.current
       end
     end
 
