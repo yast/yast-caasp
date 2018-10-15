@@ -35,7 +35,7 @@ module Y2Caasp
     include Yast::I18n
     include Yast::UIShortcuts
 
-    def run # rubocop:disable CyclomaticComplexity
+    def run
       Yast.import "UI"
       Yast.import "Mode"
       Yast.import "CWM"
@@ -51,7 +51,7 @@ module Y2Caasp
       loop do
         ret = Yast::CWM.show(
           content,
-          # Title for installation overview dialog
+          # Title for admin node configuration
           caption:        _("Admin Node Configuration"),
           skip_store_for: [:redraw]
         )
@@ -65,26 +65,12 @@ module Y2Caasp
         raise "Unexpected return value" if ret != :next
       end
 
-      # FIXME: still valid?
-      add_casp_services if ret == :next
-
       Yast::Wizard.CloseDialog if separate_wizard_needed?
 
       ret
     end
 
   private
-
-    # Specific services that needs to be enabled on CAaSP see (FATE#321738)
-    # It is additional services to the ones defined for role.
-    # It is caasp only services and for generic approach systemd-presets should be used.
-    # In this case it is not used, due to some problems with cloud services.
-    CASP_SERVICES = ["sshd", "cloud-init-local", "cloud-init", "cloud-config",
-                     "cloud-final", "issue-generator", "issue-add-ssh-keys"].freeze
-
-    def add_casp_services
-      ::Installation::Services.enabled.concat(CASP_SERVICES)
-    end
 
     def content
       return @content if @content
