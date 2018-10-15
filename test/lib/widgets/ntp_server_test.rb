@@ -14,7 +14,7 @@ describe Y2Caasp::Widgets::NtpServer do
 
   describe "#label" do
     it "returns 'NTP Servers'" do
-      expect(widget.label).to eq("NTP Servers")
+      expect(widget.label).to eq("N&TP Servers (comma or space separated)")
     end
   end
 
