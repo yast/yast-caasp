@@ -61,8 +61,8 @@ module Y2Caasp
       # When proposing NTP servers we need to know
       # 1) list of (dhcp) interfaces
       # 2) network service in use
-      # We can either use networking submodule for network service handling and get list of interfaces
-      # e.g. using a bash command or initialize whole networking module.
+      # We can either use networking submodule for network service handling and get list of
+      # interfaces e.g. using a bash command or initialize whole networking module.
       Yast::Lan.ReadWithCacheNoGUI
 
       # Simplified work-flow do not contain language proposal, but have software one.
@@ -226,7 +226,7 @@ module Y2Caasp
     #
     # @return [Array<String>] NTP servers
     def dhcp_ntp_servers
-      Yast::LanItems.dhcp_ntp_servers.values.reduce { |stack, servers| stack + servers }
+      Yast::LanItems.dhcp_ntp_servers.values.reduce(&:concat) || []
     end
 
     # Regexp to extract the URL from a SLP URL
