@@ -17,7 +17,7 @@
 
 
 Name:           yast2-caasp
-Version:        4.0.5
+Version:        4.1.0
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -32,6 +32,9 @@ BuildRequires:  yast2-installation >= 3.2.38
 # chrony support
 Requires:       yast2-ntp-client   >= 4.0.3
 BuildRequires:  yast2-ntp-client   >= 4.0.3
+# parsing dhcp leases (ntp)
+Requires:       yast2-network   >= 4.1.11
+BuildRequires:  yast2-network   >= 4.1.11
 # System information widget
 Requires:       yast2-tune         >= 3.2.0
 BuildRequires:  yast2-tune         >= 3.2.0

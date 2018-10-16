@@ -54,8 +54,16 @@ module Y2Caasp
       Yast.import "Pkg"
       Yast.import "InstShowInfo"
       Yast.import "SlpService"
+      Yast.import "Lan"
 
       textdomain "caasp"
+
+      # When proposing NTP servers we need to know
+      # 1) list of (dhcp) interfaces
+      # 2) network service in use
+      # We can either use networking submodule for network service handling and get list of
+      # interfaces e.g. using a bash command or initialize whole networking module.
+      Yast::Lan.ReadWithCacheNoGUI
 
       # Simplified work-flow do not contain language proposal, but have software one.
       # So avoid false positive detection of language change
@@ -202,6 +210,25 @@ module Y2Caasp
       Yast::Mode.normal
     end
 
+    # Lists available ntp servers
+    #
+    # Those provided via DHCP are prefered over those discovered via SLP
+    #
+    # @return [Array<String>] NTP servers
+    def ntp_servers
+      servers = dhcp_ntp_servers
+      servers = slp_ntp_servers if servers.empty?
+
+      servers
+    end
+
+    # List of servers received over dhcp
+    #
+    # @return [Array<String>] NTP servers
+    def dhcp_ntp_servers
+      Yast::LanItems.dhcp_ntp_servers.values.reduce(&:concat) || []
+    end
+
     # Regexp to extract the URL from a SLP URL
     # For instance, match 1 for "service:ntp://ntp.suse.de:123,65535"
     # will be "ntp://ntp.suse.de:123"
@@ -211,7 +238,7 @@ module Y2Caasp
     # Discover NTP servers through SLP
     #
     # @return [Array<String>] NTP server names
-    def ntp_servers
+    def slp_ntp_servers
       Yast::SlpService.all(NTP_SLP_SERVICE).each_with_object([]) do |service, servers|
         url = service.slp_url[SERVICE_REGEXP, 1]
         begin

@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Mon Oct 15 08:35:57 UTC 2018 - mfilka@suse.com
+
+- fate#323454
+  - NTP servers proposal is based on DHCP response too.
+- 4.1.0 
+
+-------------------------------------------------------------------
 Mon Aug 20 16:49:53 CEST 2018 - schubi@suse.de
 
 - Switched license in spec file from SPDX2 to SPDX3 format.
