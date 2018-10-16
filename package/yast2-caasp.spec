@@ -51,6 +51,10 @@ Requires:       yast2-country      >= 4.0.0
 Requires:      yast2-slp
 BuildRequires: yast2-slp
 
+# Read NTP servers from DHCP response
+# FIXME: add a proper version
+Requires:      yast2-network
+
 BuildRequires:  yast2-devtools     >= 3.1.39
 BuildRequires:  rubygem(rspec)
 BuildRequires:  rubygem(yast-rake) >= 0.2.13

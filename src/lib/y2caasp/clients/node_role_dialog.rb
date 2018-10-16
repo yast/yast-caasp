@@ -19,59 +19,22 @@
 # current contact information at www.suse.com.
 # ------------------------------------------------------------------------------
 
-require "ui/widgets"
-
+require "y2caasp/clients/base_role_dialog"
 require "y2caasp/widgets/ntp_server"
 require "y2caasp/widgets/system_role"
-require "installation/services"
 
 module Y2Caasp
-  # This library provides a simple dialog for setting
-  # - the password for the system administrator (root)
-  # This dialog does not write the password to the system,
-  # only stores it in UsersSimple module,
-  # to be written during inst_finish.
-  class NodeRoleDialog
-    include Yast::Logger
-    include Yast::I18n
-    include Yast::UIShortcuts
-
-    def run
-      Yast.import "UI"
-      Yast.import "Mode"
-      Yast.import "CWM"
-      Yast.import "Wizard"
-
+  class NodeRoleDialog < BaseRoleDialog
+    def initialize
       textdomain "caasp"
-
-      # We do not need to create a wizard dialog in installation, but it's
-      # helpful when testing all manually on a running system
-      Yast::Wizard.CreateDialog if separate_wizard_needed?
-
-      ret = nil
-      loop do
-        ret = Yast::CWM.show(
-          content,
-          # Title for installation overview dialog
-          caption:        _("Cluster Node Configuration"),
-          skip_store_for: [:redraw]
-        )
-
-        next if ret == :redraw
-        break if [:back, :next, :abort].include?(ret)
-
-        # Currently no other return value is expected, behavior can
-        # be unpredictable if something else is received - raise
-        # RuntimeError
-        raise "Unexpected return value" if ret != :next
-      end
-
-      Yast::Wizard.CloseDialog if separate_wizard_needed?
-
-      ret
+      super
     end
 
   private
+
+    def caption
+      _("Cluster Node Configuration")
+    end
 
     def content
       return @content if @content
@@ -81,15 +44,10 @@ module Y2Caasp
           VBox(
             Y2Caasp::Widgets::ControllerNode.new,
             VSpacing(2),
-            # FIXME: preselect from the DHCP response
-            Y2Caasp::Widgets::NtpServer.new
+            # preselect the servers from the DHCP response
+            Y2Caasp::Widgets::NtpServer.new(dhcp_ntp_servers)
           ))
       )
-    end
-
-    # Returns whether we need/ed to create new UI Wizard
-    def separate_wizard_needed?
-      Yast::Mode.normal
     end
   end
 end
