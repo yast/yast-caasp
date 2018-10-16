@@ -93,5 +93,6 @@ Containers as a Service Platform (CaaSP) specific module.
 %dir %{yast_libdir}/y2system_role_handlers
 %{yast_libdir}/y2system_role_handlers/*.rb
 %doc %{yast_docdir}
+%license COPYING
 
 %changelog
