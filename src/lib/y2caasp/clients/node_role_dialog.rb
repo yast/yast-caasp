@@ -24,6 +24,10 @@ require "y2caasp/widgets/ntp_server"
 require "y2caasp/widgets/system_role"
 
 module Y2Caasp
+  # This library provides a simple dialog for setting
+  # the cluster node specific settings:
+  #   - the admin node name
+  #   - the NTP server name
   class NodeRoleDialog < BaseRoleDialog
     def initialize
       textdomain "caasp"
