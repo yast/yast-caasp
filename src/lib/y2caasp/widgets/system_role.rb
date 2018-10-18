@@ -83,7 +83,7 @@ module Y2Caasp
     private
 
       def role
-        ::Installation::SystemRole.current
+        ::Installation::SystemRole.current_role
       end
     end
 

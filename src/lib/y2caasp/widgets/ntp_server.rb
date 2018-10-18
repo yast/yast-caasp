@@ -118,10 +118,9 @@ module Y2Caasp
         )
       end
 
-      # Return the dashboard role
+      # Return the current role
       def role
-        # FIXME: remove this hardcoded role
-        ::Installation::SystemRole.find("dashboard_role")
+        ::Installation::SystemRole.current_role
       end
     end
   end
