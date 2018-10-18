@@ -8,8 +8,7 @@ describe Y2Caasp::Widgets::NtpServer do
   let(:dashboard_role) { ::Installation::SystemRole.new(id: "dashboard_role", order: "100") }
 
   before do
-    allow(::Installation::SystemRole).to receive(:find)
-      .with("dashboard_role").and_return(dashboard_role)
+    allow(::Installation::SystemRole).to receive(:current_role).and_return(dashboard_role)
   end
 
   describe "#label" do
