@@ -10,6 +10,7 @@ ignore:
   - "coverage/**/*"
 dictionary:
   - CaaSP
+  - Kubic
   - SLE
   - SMT
   - rubydoc
