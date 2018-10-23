@@ -44,14 +44,24 @@ describe Y2Caasp::Widgets::NtpServer do
   describe "#store" do
     let(:value) { "" }
 
+    let(:ntp_conf) { double("ntp conf") }
+
     before do
       allow(widget).to receive(:value).and_return(value)
+
+      allow(Yast::NtpClient).to receive(:modified=)
+      allow(Yast::NtpClient).to receive(:ntp_selected=)
+      allow(Yast::NtpClient).to receive(:ntp_conf).and_return(ntp_conf)
+      allow(ntp_conf).to receive(:clear_pools)
+      allow(ntp_conf).to receive(:add_pool)
+      allow(Yast::NtpClient).to receive(:run_service=)
+      allow(Yast::NtpClient).to receive(:synchronize_time=)
     end
 
     context "when value is empty" do
       it "sets the role ntp_servers property to an empty array" do
+        expect(ntp_conf).to_not receive(:add_pool)
         widget.store
-        expect(dashboard_role["ntp_servers"]).to eq([])
       end
     end
 
@@ -59,8 +69,8 @@ describe Y2Caasp::Widgets::NtpServer do
       let(:value) { "server1" }
 
       it "sets the role ntp_servers property to an array containing the hostname/address" do
+        expect(ntp_conf).to receive(:add_pool).with(value)
         widget.store
-        expect(dashboard_role["ntp_servers"]).to eq(["server1"])
       end
     end
 
@@ -68,8 +78,9 @@ describe Y2Caasp::Widgets::NtpServer do
       let(:value) { "server1 server2" }
 
       it "sets the role ntp_servers property to an array containing all the hostnames/addresses" do
+        expect(ntp_conf).to receive(:add_pool).with("server1")
+        expect(ntp_conf).to receive(:add_pool).with("server2")
         widget.store
-        expect(dashboard_role["ntp_servers"]).to eq(["server1", "server2"])
       end
     end
 
@@ -77,8 +88,9 @@ describe Y2Caasp::Widgets::NtpServer do
       let(:value) { "server1,server2" }
 
       it "sets the role ntp_servers property to an array containing all the hostnames/addresses" do
+        expect(ntp_conf).to receive(:add_pool).with("server1")
+        expect(ntp_conf).to receive(:add_pool).with("server2")
         widget.store
-        expect(dashboard_role["ntp_servers"]).to eq(["server1", "server2"])
       end
     end
 
@@ -86,8 +98,10 @@ describe Y2Caasp::Widgets::NtpServer do
       let(:value) { "server1,server2 server3" }
 
       it "sets the role ntp_servers property to an array containing all the hostnames/addresses" do
+        expect(ntp_conf).to receive(:add_pool).with("server1")
+        expect(ntp_conf).to receive(:add_pool).with("server2")
+        expect(ntp_conf).to receive(:add_pool).with("server3")
         widget.store
-        expect(dashboard_role["ntp_servers"]).to eq(["server1", "server2", "server3"])
       end
     end
   end

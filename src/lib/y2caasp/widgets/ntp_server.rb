@@ -28,6 +28,7 @@ Yast.import "Popup"
 Yast.import "Label"
 Yast.import "IP"
 Yast.import "Hostname"
+Yast.import "NtpClient"
 
 module Y2Caasp
   module Widgets
@@ -54,7 +55,15 @@ module Y2Caasp
 
       # Store the value of the input field if validates
       def store
-        role["ntp_servers"] = servers if role
+        return if servers.empty?
+
+        Yast::NtpClient.ntp_selected = true
+        Yast::NtpClient.modified = true
+        Yast::NtpClient.ntp_conf.clear_pools
+        servers.each { |server| Yast::NtpClient.ntp_conf.add_pool(server) }
+        # run NTP as a service (not via cron)
+        Yast::NtpClient.run_service = true
+        Yast::NtpClient.synchronize_time = false
       end
 
       # Initializes the widget's value
