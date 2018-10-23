@@ -39,30 +39,7 @@ module Y2Caasp
 
       textdomain "caasp"
 
-      # We do not need to create a wizard dialog in installation, but it's
-      # helpful when testing all manually on a running system
-      Yast::Wizard.CreateDialog if separate_wizard_needed?
-
-      ret = nil
-      loop do
-        ret = Yast::CWM.show(
-          content,
-          caption:        caption,
-          skip_store_for: [:redraw]
-        )
-
-        next if ret == :redraw
-        break if [:back, :next, :abort].include?(ret)
-
-        # Currently no other return value is expected, behavior can
-        # be unpredictable if something else is received - raise
-        # RuntimeError
-        raise "Unexpected return value" if ret != :next
-      end
-
-      Yast::Wizard.CloseDialog if separate_wizard_needed?
-
-      ret
+      main_loop
     end
 
   private
@@ -81,6 +58,42 @@ module Y2Caasp
       Yast::Lan.ReadWithCacheNoGUI
 
       Yast::LanItems.dhcp_ntp_servers.values.reduce(&:concat) || []
+    end
+
+    def run_in_wizard
+      # We do not need to create a wizard dialog in installation, but it's
+      # helpful when testing all manually on a running system
+      Yast::Wizard.CreateDialog if separate_wizard_needed?
+
+      begin
+        yield
+      ensure
+        Yast::Wizard.CloseDialog if separate_wizard_needed?
+      end
+    end
+
+    def main_loop
+      ret = nil
+
+      run_in_wizard do
+        loop do
+          ret = Yast::CWM.show(
+            content,
+            caption:        caption,
+            skip_store_for: [:redraw]
+          )
+
+          next if ret == :redraw
+          break if [:back, :next, :abort].include?(ret)
+
+          # Currently no other return value is expected, behavior can
+          # be unpredictable if something else is received - raise
+          # RuntimeError
+          raise "Unexpected return value"
+        end
+      end
+
+      ret
     end
   end
 end
