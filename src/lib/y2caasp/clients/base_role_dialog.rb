@@ -60,6 +60,7 @@ module Y2Caasp
       Yast::LanItems.dhcp_ntp_servers.values.reduce(&:concat) || []
     end
 
+    # wrapper to run the code in Wizard
     def run_in_wizard
       # We do not need to create a wizard dialog in installation, but it's
       # helpful when testing all manually on a running system
@@ -72,6 +73,7 @@ module Y2Caasp
       end
     end
 
+    # run the main loop
     def main_loop
       ret = nil
 

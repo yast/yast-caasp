@@ -25,7 +25,7 @@ require "y2caasp/widgets/ntp_server"
 module Y2Caasp
   # This library provides a simple dialog for setting
   # the admin role specific settings:
-  #   - the NTP server name
+  #   - the NTP server names
   class AdminRoleDialog < BaseRoleDialog
     def initialize
       textdomain "caasp"
