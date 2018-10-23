@@ -40,6 +40,14 @@ module Y2Caasp
         _("Administration Node")
       end
 
+      def help
+        # TRANSLATORS: a help text for the controller node input field
+        _("<h3>The Controller Node</h3>") +
+          # TRANSLATORS: a help text for the controller node input field
+          _("<p>Enter the host name or the IP address of the controller node" \
+              "to which this machine will be connected to.</p>")
+      end
+
       # It stores the value of the input field if validates
       #
       # @see #validate
