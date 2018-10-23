@@ -28,7 +28,7 @@ module Y2Caasp
   # the cluster node specific settings:
   #   - the admin node name
   #   - the NTP server name
-  class NodeRoleDialog < BaseRoleDialog
+  class WorkerRoleDialog < BaseRoleDialog
     def initialize
       textdomain "caasp"
       super
