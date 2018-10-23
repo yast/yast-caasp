@@ -77,13 +77,7 @@ module Y2Caasp
 
       run_in_wizard do
         loop do
-          ret = Yast::CWM.show(
-            content,
-            caption:        caption,
-            skip_store_for: [:redraw]
-          )
-
-          next if ret == :redraw
+          ret = Yast::CWM.show(content, caption: caption)
           break if [:back, :next, :abort].include?(ret)
 
           # Currently no other return value is expected, behavior can
