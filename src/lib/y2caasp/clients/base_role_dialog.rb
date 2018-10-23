@@ -67,14 +67,6 @@ module Y2Caasp
 
   private
 
-    def caption
-      raise "Not implemented"
-    end
-
-    def content
-      raise "Not implemented"
-    end
-
     # Returns whether we need to create a new UI Wizard
     def separate_wizard_needed?
       Yast::Mode.normal

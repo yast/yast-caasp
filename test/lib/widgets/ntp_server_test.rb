@@ -17,6 +17,12 @@ describe Y2Caasp::Widgets::NtpServer do
     end
   end
 
+  describe "#help" do
+    it "returns a help text" do
+      expect(widget.help).to be_a(String)
+    end
+  end
+
   describe "#init" do
     subject(:widget) { Y2Caasp::Widgets::NtpServer.new(["ntp.suse.de"]) }
 
