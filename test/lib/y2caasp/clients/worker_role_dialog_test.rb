@@ -45,7 +45,7 @@ describe ::Y2Caasp::WorkerRoleDialog do
       subject.run
     end
 
-    context "when some NTP server is detected via SLP" do
+    context "when some NTP server is detected via DHCP" do
       let(:ntp_servers) { ["ntp.example.com"] }
 
       it "proposes to use it by default" do
