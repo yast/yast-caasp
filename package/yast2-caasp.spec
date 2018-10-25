@@ -35,25 +35,6 @@ BuildRequires:  yast2-ntp-client   >= 4.0.3
 # parsing dhcp leases (ntp)
 Requires:       yast2-network   >= 4.1.11
 BuildRequires:  yast2-network   >= 4.1.11
-# System information widget
-Requires:       yast2-tune         >= 3.2.0
-BuildRequires:  yast2-tune         >= 3.2.0
-# Password widget
-Requires:       yast2-users        >= 3.2.10
-BuildRequires:  yast2-users        >= 3.2.10
-# Registration widget
-Requires:       yast2-registration >= 3.2.1
-BuildRequires:  yast2-registration >= 3.2.1
-# new language selection cwm widget
-BuildRequires:  yast2-country      >= 4.0.0
-Requires:       yast2-country      >= 4.0.0
-# SlpServices.find
-Requires:      yast2-slp
-BuildRequires: yast2-slp
-
-# Read NTP servers from DHCP response
-# FIXME: add a proper version
-Requires:      yast2-network
 
 BuildRequires:  yast2-devtools     >= 3.1.39
 BuildRequires:  rubygem(rspec)
@@ -61,17 +42,13 @@ BuildRequires:  rubygem(yast-rake) >= 0.2.13
 
 BuildArch:      noarch
 
-# SUSEConnect does not build for i586 and s390 and is not supported on those architectures
-# bsc#1088552 so also yast2-registration is not there.
-ExcludeArch:    %ix86 s390
-
 Summary:        YaST2 - CaaSP Module
 License:        GPL-2.0-only
 Group:          System/YaST
 Url:            https://github.com/yast/yast-caasp
 
 %description
-Containers as a Service Platform (CaaSP) specific module.
+Containers as a Service Platform (CaaSP) and openSUSE Kubic specific module.
 
 %prep
 %setup -n %{name}-%{version}
