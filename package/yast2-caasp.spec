@@ -65,6 +65,7 @@ Containers as a Service Platform (CaaSP) and openSUSE Kubic specific module.
 %defattr(-,root,root)
 %{yast_clientdir}/*.rb
 %dir %{yast_libdir}/y2caasp
+%{yast_libdir}/y2caasp/*.rb
 %dir %{yast_libdir}/y2caasp/cfa
 %{yast_libdir}/y2caasp/cfa/*.rb
 %dir %{yast_libdir}/y2caasp/widgets
