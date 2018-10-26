@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Oct 25 14:06:41 UTC 2018 - lslezak@suse.cz
+
+- Added Kubeadm role dialog for openSUSE Kubic (FATE#325834)
+- 4.1.1
+
+-------------------------------------------------------------------
 Tue Oct 16 16:55:40 CEST 2018 - schubi@suse.de
 
 - Added license file to spec.
