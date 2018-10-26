@@ -52,12 +52,14 @@ module Y2Caasp
       #
       # @see #validate
       def store
+        # this is a role widget so a role must be selected before saving
+        raise("No role selected") unless role
         role["controller_node"] = value
       end
 
       # The input field is initialized with previous stored value
       def init
-        self.value = role["controller_node"]
+        self.value = role["controller_node"] if role
       end
 
       # It returns true if the value is a valid IP or a valid FQDN, if not it
@@ -79,8 +81,7 @@ module Y2Caasp
     private
 
       def role
-        # this is a role widget so a role must be selected before displaying it
-        ::Installation::SystemRole.current_role || raise("No role selected")
+        ::Installation::SystemRole.current_role
       end
     end
   end

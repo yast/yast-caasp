@@ -19,16 +19,19 @@
 # current contact information at www.suse.com.
 # ------------------------------------------------------------------------------
 
-require "y2caasp/clients/base_role_dialog"
+require "cwm/dialog"
 require "y2caasp/widgets/controller_node"
 require "y2caasp/widgets/ntp_server"
+require "y2caasp/dhcp_ntp_servers"
 
 module Y2Caasp
   # This library provides a simple dialog for setting
   # the worker node specific settings:
   #   - the admin node name
   #   - the NTP server names
-  class WorkerRoleDialog < BaseRoleDialog
+  class WorkerRoleDialog < CWM::Dialog
+    include DhcpNtpServers
+
     def initialize
       textdomain "caasp"
       super
@@ -36,11 +39,11 @@ module Y2Caasp
 
   private
 
-    def caption
+    def title
       _("Cluster Node Configuration")
     end
 
-    def content
+    def contents
       return @content if @content
 
       @content = HSquash(

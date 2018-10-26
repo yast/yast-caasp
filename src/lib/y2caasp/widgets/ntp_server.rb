@@ -55,7 +55,12 @@ module Y2Caasp
 
       # Store the value of the input field if validates
       def store
-        return if servers.empty?
+        if servers.empty?
+          # we need to reset the previous settings after going back
+          Yast::NtpClient.ntp_selected = false
+          Yast::NtpClient.modified = false
+          return
+        end
 
         Yast::NtpClient.ntp_selected = true
         Yast::NtpClient.modified = true

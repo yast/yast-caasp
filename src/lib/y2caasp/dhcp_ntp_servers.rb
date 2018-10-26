@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # ------------------------------------------------------------------------------
 # Copyright (c) 2017 SUSE LLC
 #
@@ -19,36 +17,27 @@
 # current contact information at www.suse.com.
 # ------------------------------------------------------------------------------
 
-require "cwm/dialog"
-require "y2caasp/widgets/ntp_server"
-require "y2caasp/dhcp_ntp_servers"
-
 module Y2Caasp
-  # This library provides a simple dialog for setting
-  # the admin role specific settings:
-  #   - the NTP server names
-  class AdminRoleDialog < CWM::Dialog
-    include DhcpNtpServers
+  # This module provides a functionlity for reading the NTP servers
+  # from the DHCP response
+  module DhcpNtpServers
+    #
+    # List of NTP servers from DHCP
+    #
+    # @return [Array<String>] List of servers (IP or host names), empty if not provided
+    #
+    def dhcp_ntp_servers
+      Yast.import "Lan"
+      Yast.import "LanItems"
 
-    def initialize
-      textdomain "caasp"
-      super
-    end
+      # When proposing NTP servers we need to know
+      # 1) list of (dhcp) interfaces
+      # 2) network service in use
+      # We can either use networking submodule for network service handling and get list of
+      # interfaces e.g. using a bash command or initialize whole networking module.
+      Yast::Lan.ReadWithCacheNoGUI
 
-  private
-
-    def title
-      _("Admin Node Configuration")
-    end
-
-    def contents
-      return @content if @content
-
-      @content = HSquash(
-        MinWidth(50,
-          # preselect the servers from the DHCP response
-          Y2Caasp::Widgets::NtpServer.new(dhcp_ntp_servers))
-      )
+      Yast::LanItems.dhcp_ntp_servers.values.reduce(&:concat) || []
     end
   end
 end
