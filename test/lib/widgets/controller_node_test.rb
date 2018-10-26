@@ -1,6 +1,7 @@
 #!/usr/bin/env rspec
 
 require_relative "../../test_helper"
+require "cwm/rspec"
 require "y2caasp/widgets/controller_node"
 
 describe Y2Caasp::Widgets::ControllerNode do
@@ -19,17 +20,7 @@ describe Y2Caasp::Widgets::ControllerNode do
     allow(Yast::Popup).to receive(:Error)
   end
 
-  describe "#label" do
-    it "returns a String" do
-      expect(widget.label).to be_a(String)
-    end
-  end
-
-  describe "#help" do
-    it "returns a help text" do
-      expect(widget.help).to be_a(String)
-    end
-  end
+  include_examples "CWM::AbstractWidget"
 
   describe "#init" do
     let(:value) { "server1" }

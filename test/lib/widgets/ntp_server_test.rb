@@ -1,6 +1,7 @@
 #!/usr/bin/env rspec
 
 require_relative "../../test_helper"
+require "cwm/rspec"
 require "y2caasp/widgets/ntp_server"
 
 describe Y2Caasp::Widgets::NtpServer do
@@ -11,17 +12,7 @@ describe Y2Caasp::Widgets::NtpServer do
     allow(::Installation::SystemRole).to receive(:current_role).and_return(dashboard_role)
   end
 
-  describe "#label" do
-    it "returns 'NTP Servers'" do
-      expect(widget.label).to eq("N&TP Servers (comma or space separated)")
-    end
-  end
-
-  describe "#help" do
-    it "returns a help text" do
-      expect(widget.help).to be_a(String)
-    end
-  end
+  include_examples "CWM::AbstractWidget"
 
   describe "#init" do
     subject(:widget) { Y2Caasp::Widgets::NtpServer.new(["ntp.suse.de"]) }

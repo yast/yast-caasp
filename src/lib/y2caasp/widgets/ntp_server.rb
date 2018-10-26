@@ -112,7 +112,7 @@ module Y2Caasp
       #
       # @return [Array<String>] List of hostnames/addresses
       def servers
-        value.tr(",", " ").split(" ")
+        value.to_s.tr(",", " ").split(" ")
       end
 
       # Check if the user wants to intentionally skip the NTP server configuration
