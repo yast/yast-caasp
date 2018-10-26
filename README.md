@@ -1,17 +1,21 @@
-YaST - CaaSP integration
-========================
+YaST - CaaSP/Kubic Integration
+==============================
 
 [![Travis Build](https://travis-ci.org/yast/yast-caasp.svg?branch=master)](https://travis-ci.org/yast/yast-caasp)
 [![Coverage Status](https://img.shields.io/coveralls/yast/yast-caasp.svg)](https://coveralls.io/r/yast/yast-caasp?branch=master)
-[![Jenkins Build](http://img.shields.io/jenkins/s/https/ci.opensuse.org/yast-caasp-master.svg)](https://ci.opensuse.org/view/Yast/job/yast-caasp-master/)
+[![Jenkins Build](http://img.shields.io/jenkins/s/https/ci.opensuse.org/yast-yast-caasp-master.svg)](https://ci.opensuse.org/view/Yast/job/yast-yast-caasp-master/)
 [![Code Climate](https://codeclimate.com/github/yast/yast-caasp/badges/gpa.svg)](https://codeclimate.com/github/yast/yast-caasp)
 
-This repository contains code which is specific to the Containers as a Service Platform
-(CaaSP) product.
+This repository contains code which is specific for the [Containers as a Service Platform
+(CaaSP)](https://www.suse.com/documentation/suse-caasp-3/index.html) product and
+the [openSUSE Kubic](https://kubic.opensuse.org/) project.
 
 
 Provided Functionality
 ======================
+
+This module provides specific configuration options displayed during the SUSE CaaSP and
+openSUSE Kubic installation.
 
 See [the generated yardoc documentation](http://www.rubydoc.info/github/yast/yast-caasp) at rubydoc.info.
 

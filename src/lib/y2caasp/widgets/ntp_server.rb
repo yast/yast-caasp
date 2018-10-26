@@ -28,6 +28,7 @@ Yast.import "Popup"
 Yast.import "Label"
 Yast.import "IP"
 Yast.import "Hostname"
+Yast.import "NtpClient"
 
 module Y2Caasp
   module Widgets
@@ -48,17 +49,31 @@ module Y2Caasp
 
       # @return [String] Widget's label
       def label
-        _("NTP Servers")
+        # TRANSLATORS: input field label
+        _("N&TP Servers (comma or space separated)")
       end
 
       # Store the value of the input field if validates
       def store
-        role["ntp_servers"] = servers
+        if servers.empty?
+          # we need to reset the previous settings after going back
+          Yast::NtpClient.ntp_selected = false
+          Yast::NtpClient.modified = false
+          return
+        end
+
+        Yast::NtpClient.ntp_selected = true
+        Yast::NtpClient.modified = true
+        Yast::NtpClient.ntp_conf.clear_pools
+        servers.each { |server| Yast::NtpClient.ntp_conf.add_pool(server) }
+        # run NTP as a service (not via cron)
+        Yast::NtpClient.run_service = true
+        Yast::NtpClient.synchronize_time = false
       end
 
       # Initializes the widget's value
       def init
-        saved_servers = role["ntp_servers"] || default_servers
+        saved_servers = (role && role["ntp_servers"]) || default_servers
         self.value = saved_servers.join(" ")
       end
 
@@ -81,13 +96,23 @@ module Y2Caasp
         false
       end
 
+      def help
+        # TRANSLATORS: a help text for the NTP server input field
+        _("<h3>NTP Servers</h3>") +
+          # TRANSLATORS: a help text for the NTP server input field
+          _("<p>Enter the host name or the IP address of the NTP server which will be used for " \
+            "synchronizing the time on this machine</p>") +
+          # TRANSLATORS: a help text for the NTP server input field
+          _("<p>Use comma (,) or space to separate multiple values.</p>")
+      end
+
     private
 
       # Parse the widget's value an return the potential list of hostnames/addresses
       #
       # @return [Array<String>] List of hostnames/addresses
       def servers
-        value.tr(",", " ").split(" ")
+        value.to_s.tr(",", " ").split(" ")
       end
 
       # Check if the user wants to intentionally skip the NTP server configuration
@@ -107,9 +132,9 @@ module Y2Caasp
         )
       end
 
-      # Return the dashboard role
+      # Return the current role
       def role
-        ::Installation::SystemRole.find("dashboard_role")
+        ::Installation::SystemRole.current_role
       end
     end
   end

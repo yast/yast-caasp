@@ -21,12 +21,8 @@
 
 require "yast"
 require "cwm/widget"
-require "installation/services"
 require "installation/system_role"
-require "y2caasp/widgets/ntp_server"
 
-Yast.import "ProductControl"
-Yast.import "ProductFeatures"
 Yast.import "IP"
 Yast.import "Hostname"
 
@@ -44,16 +40,26 @@ module Y2Caasp
         _("Administration Node")
       end
 
+      def help
+        # TRANSLATORS: a help text for the controller node input field
+        _("<h3>The Controller Node</h3>") +
+          # TRANSLATORS: a help text for the controller node input field
+          _("<p>Enter the host name or the IP address of the controller node " \
+              "to which this machine will be connected to.</p>")
+      end
+
       # It stores the value of the input field if validates
       #
       # @see #validate
       def store
+        # this is a role widget so a role must be selected before saving
+        raise("No role selected") unless role
         role["controller_node"] = value
       end
 
       # The input field is initialized with previous stored value
       def init
-        self.value = role["controller_node"]
+        self.value = role["controller_node"] if role
       end
 
       # It returns true if the value is a valid IP or a valid FQDN, if not it
@@ -75,77 +81,7 @@ module Y2Caasp
     private
 
       def role
-        ::Installation::SystemRole.find("worker_role")
-      end
-    end
-
-    # Widget to select and set specific system role options
-    class SystemRole < CWM::ComboBox
-      ROLE_WIDGETS = {
-        "worker_role"    => [:controller_node],
-        "dashboard_role" => [:ntp_server]
-      }.freeze
-
-      attr_reader :widgets_map
-
-      def initialize(controller_node_widget, ntp_server_widget)
-        textdomain "caasp"
-        @widgets_map = {
-          controller_node: controller_node_widget,
-          ntp_server:      ntp_server_widget
-        }
-      end
-
-      def label
-        Yast::ProductControl.GetTranslatedText("roles_caption")
-      end
-
-      def opt
-        [:hstretch, :notify]
-      end
-
-      def init
-        self.value = ::Installation::SystemRole.current || default
-        handle
-      end
-
-      def handle
-        to_show = ROLE_WIDGETS.fetch(value, [])
-        to_hide = widgets_map.keys - to_show
-        to_hide.each { |w| widgets_map[w].hide }
-        to_show.each { |w| widgets_map[w].show }
-        nil
-      end
-
-      def items
-        ::Installation::SystemRole.all.map do |role|
-          [role.id, role.label]
-        end
-      end
-
-      def help
-        Yast::ProductControl.GetTranslatedText("roles_help") + "\n\n" + roles_help_text
-      end
-
-      def store
-        log.info "Applying system role '#{value}'"
-        role = ::Installation::SystemRole.select(value)
-
-        Yast::ProductFeatures.ClearOverlay
-        role.overlay_features
-        role.adapt_services
-      end
-
-    private
-
-      def roles_help_text
-        ::Installation::SystemRole.all.map do |role|
-          role.label + "\n\n" + role.description
-        end.join("\n\n\n")
-      end
-
-      def default
-        ::Installation::SystemRole.ids.first
+        ::Installation::SystemRole.current_role
       end
     end
   end
