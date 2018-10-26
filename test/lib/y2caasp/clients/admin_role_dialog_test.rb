@@ -2,12 +2,12 @@
 
 require_relative "../../../test_helper.rb"
 require_relative "role_dialog_examples"
+require "cwm/rspec"
 
 require "y2caasp/clients/admin_role_dialog.rb"
 
 Yast.import "CWM"
 Yast.import "Lan"
-Yast.import "Mode"
 Yast.import "Wizard"
 
 describe ::Y2Caasp::AdminRoleDialog do
@@ -22,7 +22,7 @@ describe ::Y2Caasp::AdminRoleDialog do
       allow(Yast::LanItems).to receive(:dhcp_ntp_servers).and_return({})
     end
 
-    include_examples "displays the dialog"
+    include_examples "CWM::Dialog"
     include_examples "NTP from DHCP"
   end
 end

@@ -2,18 +2,16 @@
 
 require_relative "../../../test_helper.rb"
 require_relative "role_dialog_examples"
+require "cwm/rspec"
 
 require "y2caasp/clients/worker_role_dialog.rb"
 
 Yast.import "CWM"
 Yast.import "Lan"
-Yast.import "Mode"
 Yast.import "Wizard"
 
 describe ::Y2Caasp::WorkerRoleDialog do
   describe "#run" do
-    let(:ntp_servers) { [] }
-
     before do
       allow(Yast::Wizard).to receive(:CreateDialog)
       allow(Yast::Wizard).to receive(:CloseDialog)
@@ -22,7 +20,7 @@ describe ::Y2Caasp::WorkerRoleDialog do
       allow(Yast::LanItems).to receive(:dhcp_ntp_servers).and_return({})
     end
 
-    include_examples "displays the dialog"
+    include_examples "CWM::Dialog"
     include_examples "NTP from DHCP"
   end
 end

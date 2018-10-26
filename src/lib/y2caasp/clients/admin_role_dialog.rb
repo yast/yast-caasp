@@ -35,8 +35,6 @@ module Y2Caasp
       super
     end
 
-  private
-
     def title
       _("Admin Node Configuration")
     end
