@@ -66,10 +66,11 @@ module Y2SystemRoleHandlers
     #
     # Save the timesyncd configuration
     #
-    # @param servers [Array<String>,nil] the NTP servers
+    # @param servers [Array<String>,nil] the NTP servers, if empty or nil
+    #  the timesyncd configuration is not saved
     def configure_systemd_timesync(servers)
-      return if servers.nil? || servers.empty?
       log.info("Configured NTP servers: #{servers.inspect}")
+      return if servers.nil? || servers.empty?
 
       timesync_conf = ::Y2Caasp::CFA::SystemdTimesyncd.new
 

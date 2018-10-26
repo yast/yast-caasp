@@ -44,7 +44,7 @@ module Y2Caasp
         # TRANSLATORS: a help text for the controller node input field
         _("<h3>The Controller Node</h3>") +
           # TRANSLATORS: a help text for the controller node input field
-          _("<p>Enter the host name or the IP address of the controller node" \
+          _("<p>Enter the host name or the IP address of the controller node " \
               "to which this machine will be connected to.</p>")
       end
 
@@ -52,12 +52,12 @@ module Y2Caasp
       #
       # @see #validate
       def store
-        role["controller_node"] = value if role
+        role["controller_node"] = value
       end
 
       # The input field is initialized with previous stored value
       def init
-        self.value = role["controller_node"] if role
+        self.value = role["controller_node"]
       end
 
       # It returns true if the value is a valid IP or a valid FQDN, if not it
@@ -79,7 +79,8 @@ module Y2Caasp
     private
 
       def role
-        ::Installation::SystemRole.current_role
+        # this is a role widget so a role must be selected before displaying it
+        ::Installation::SystemRole.current_role || raise("No role selected")
       end
     end
   end
