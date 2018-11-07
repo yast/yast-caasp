@@ -7,7 +7,7 @@ YaST - CaaSP/Kubic Integration
 [![Code Climate](https://codeclimate.com/github/yast/yast-caasp/badges/gpa.svg)](https://codeclimate.com/github/yast/yast-caasp)
 
 This repository contains code which is specific for the [Containers as a Service Platform
-(CaaSP)](https://www.suse.com/documentation/suse-caasp-3/index.html) product and
+(CaaSP)](https://www.suse.com/documentation/suse-caasp/) product and
 the [openSUSE Kubic](https://kubic.opensuse.org/) project.
 
 
