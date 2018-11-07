@@ -29,12 +29,18 @@ module Y2SystemRoleHandlers
     include Yast::Logger
 
     def run
-      role = ::Installation::SystemRole.find("worker_role")
+      role = ::Installation::SystemRole.current_role
+
+      if !role
+        log.warn("Current role not found, not saving the config")
+        return
+      end
+
       master = role["controller_node"]
       log.info("The controller node for this worker role is: #{master}")
 
       configure_salt_minion(master)
-      configure_systemd_timesync(master)
+      configure_systemd_timesync(role["ntp_servers"])
       enable_timesync_service
     end
 
@@ -57,7 +63,15 @@ module Y2SystemRoleHandlers
       master_conf.save
     end
 
-    def configure_systemd_timesync(master)
+    #
+    # Save the timesyncd configuration
+    #
+    # @param servers [Array<String>,nil] the NTP servers, if empty or nil
+    #  the timesyncd configuration is not saved
+    def configure_systemd_timesync(servers)
+      log.info("Configured NTP servers: #{servers.inspect}")
+      return if servers.nil? || servers.empty?
+
       timesync_conf = ::Y2Caasp::CFA::SystemdTimesyncd.new
 
       begin
@@ -66,7 +80,7 @@ module Y2SystemRoleHandlers
         log.info("Systemd timesync.conf file does not exist, it will be created")
       end
 
-      timesync_conf.ntp_servers = [master]
+      timesync_conf.ntp_servers = servers
       timesync_conf.save
     end
 
