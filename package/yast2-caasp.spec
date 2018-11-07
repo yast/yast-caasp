@@ -33,8 +33,8 @@ BuildRequires:  yast2-installation >= 3.2.38
 Requires:       yast2-ntp-client   >= 4.0.3
 BuildRequires:  yast2-ntp-client   >= 4.0.3
 # parsing dhcp leases (ntp)
-Requires:       yast2-network   >= 4.0.73
-BuildRequires:  yast2-network   >= 4.0.73
+Requires:       yast2-network   >= 4.0.42
+BuildRequires:  yast2-network   >= 4.0.42
 
 BuildRequires:  yast2-devtools     >= 3.1.39
 BuildRequires:  rubygem(rspec)
