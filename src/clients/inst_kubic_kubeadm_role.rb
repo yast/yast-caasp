@@ -1,4 +1,3 @@
 
-# so far the Kubic dialog is the same as in CaaSP
-require "y2caasp/clients/admin_role_dialog"
-Y2Caasp::AdminRoleDialog.new.run
+require "y2caasp/clients/kubeadm_role_dialog"
+Y2Caasp::KubeadmRoleDialog.new.run

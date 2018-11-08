@@ -35,7 +35,13 @@ module Y2Caasp
       super
     end
 
+    #
+    # The dialog title
+    #
+    # @return [String] the title
+    #
     def title
+      # TRANSLATORS: dialog title
       _("Admin Node Configuration")
     end
 
@@ -45,8 +51,37 @@ module Y2Caasp
       @content = HSquash(
         MinWidth(50,
           # preselect the servers from the DHCP response
-          Y2Caasp::Widgets::NtpServer.new(dhcp_ntp_servers))
+          Y2Caasp::Widgets::NtpServer.new(ntp_servers))
       )
+    end
+
+  private
+
+    #
+    # Propose the NTP servers
+    #
+    # @return [Array<String>] proposed NTP servers, empty if nothing suitable found
+    #
+    def ntp_servers
+      # TODO: use Yast::NtpClient.ntp_conf if configured
+      # to better handle going back
+      servers = dhcp_ntp_servers
+      servers << ntp_fallback if servers.empty? && ntp_fallback
+
+      servers
+    end
+
+  protected
+
+    #
+    # The fallback servers for NTP configuration, used when there is no
+    # server specified in the DHCP response.
+    #
+    # @return [String,nil] the fallback servers (comma or space separated),
+    #   nil for none
+    #
+    def ntp_fallback
+      nil
     end
   end
 end
