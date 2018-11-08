@@ -17,6 +17,8 @@
 # current contact information at www.suse.com.
 # ------------------------------------------------------------------------------
 
+require "yast"
+
 module Y2Caasp
   # This module provides a functionlity for reading the NTP servers
   # from the DHCP response
