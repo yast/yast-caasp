@@ -74,11 +74,10 @@ module Y2Caasp
   protected
 
     #
-    # The fallback servers for NTP configuration, used when there is no
+    # The fallback server for NTP configuration, used when there is no
     # server specified in the DHCP response.
     #
-    # @return [String,nil] the fallback servers (comma or space separated),
-    #   nil for none
+    # @return [String,nil] the fallback server, nil for none
     #
     def ntp_fallback
       nil

@@ -26,6 +26,11 @@ module Y2Caasp
 
   protected
 
+    #
+    # Fallback NTP server
+    #
+    # @return [String] The fallback server name
+    #
     def ntp_fallback
       # propose random pool server in range 0..3 if not set via DHCP
       "#{rand(4)}.opensuse.pool.ntp.org"
