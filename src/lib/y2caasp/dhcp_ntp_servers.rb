@@ -20,7 +20,7 @@
 require "yast"
 
 module Y2Caasp
-  # This module provides a functionlity for reading the NTP servers
+  # This module provides a functionality for reading the NTP servers
   # from the DHCP response
   module DhcpNtpServers
     #
