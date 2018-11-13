@@ -19,6 +19,7 @@
 # current contact information at www.suse.com.
 # ------------------------------------------------------------------------------
 
+require "yast"
 require "cwm/dialog"
 require "y2caasp/widgets/ntp_server"
 require "y2caasp/dhcp_ntp_servers"
@@ -32,10 +33,19 @@ module Y2Caasp
 
     def initialize
       textdomain "caasp"
+
+      Yast.import "Product"
+      Yast.import "ProductFeatures"
       super
     end
 
+    #
+    # The dialog title
+    #
+    # @return [String] the title
+    #
     def title
+      # TRANSLATORS: dialog title
       _("Admin Node Configuration")
     end
 
@@ -45,8 +55,47 @@ module Y2Caasp
       @content = HSquash(
         MinWidth(50,
           # preselect the servers from the DHCP response
-          Y2Caasp::Widgets::NtpServer.new(dhcp_ntp_servers))
+          Y2Caasp::Widgets::NtpServer.new(ntp_servers))
       )
+    end
+
+  private
+
+    #
+    # Propose the NTP servers from the DHCP response, fallback to a random
+    # machine from the ntp.org pool if enabled in control.xml.
+    #
+    # @return [Array<String>] proposed NTP servers, empty if nothing suitable found
+    #
+    def ntp_servers
+      # TODO: use Yast::NtpClient.ntp_conf if configured
+      # to better handle going back
+      servers = dhcp_ntp_servers
+      servers = ntp_fallback if servers.empty?
+
+      servers
+    end
+
+    #
+    # The fallback servers for NTP configuration
+    #
+    # @return [Array<String>] the fallback servers, empty if disabled in control.xml
+    #
+    def ntp_fallback
+      # propose the fallback when enabled in control file
+      return [] unless Yast::ProductFeatures.GetBooleanFeature("globals", "default_ntp_setup")
+
+      # copied from timezone/dialogs.rb:
+      base_products = Yast::Product.FindBaseProducts
+      host = if base_products.any? { |p| p["name"] =~ /openSUSE/i }
+        "opensuse"
+      else
+        # TODO: use a SUSE server when available in the future
+        "novell"
+      end
+
+      # propose a random pool server in range 0..3
+      ["#{rand(4)}.#{host}.pool.ntp.org"]
     end
   end
 end
