@@ -3,7 +3,7 @@ Fri Nov  9 16:09:30 UTC 2018 - lslezak@suse.cz
 
 - Kubic updates (bsc#1114818)
   - Propose using the openSUSE pool.ntp.org servers when the DHCP
-    response does not continue any
+    response does not include any
   - Updated kubeadm dialog title
 
 -------------------------------------------------------------------
