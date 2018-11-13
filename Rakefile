@@ -1,7 +1,6 @@
 require "yast/rake"
 
-# to manually submit to CaaSP 4.0 run
-# YAST_SUBMIT=casp40 rake osc:sr
+Yast::Tasks.submit_to((ENV["YAST_SUBMIT"] || :factory).to_sym)
 
 Yast::Tasks.configuration do |conf|
   # lets ignore license check for now
