@@ -4,13 +4,13 @@ require_relative "../../../test_helper.rb"
 require_relative "role_dialog_examples"
 require "cwm/rspec"
 
-require "y2caasp/clients/admin_role_dialog.rb"
+require "y2caasp/clients/kubeadm_role_dialog.rb"
 
 Yast.import "CWM"
 Yast.import "Lan"
 Yast.import "Wizard"
 
-describe ::Y2Caasp::AdminRoleDialog do
+describe Y2Caasp::KubeadmRoleDialog do
   describe "#run" do
     let(:ntp_servers) { [] }
 
@@ -26,19 +26,17 @@ describe ::Y2Caasp::AdminRoleDialog do
     include_examples "CWM::Dialog"
     include_examples "NTP from DHCP"
 
-    # Note: this is a hypothetical test, in real CaaSP the default NTP setup
-    # is currently disabled in control.xml
     context "no NTP server set in DHCP and default NTP is enabled in control.xml" do
       before do
         allow(Yast::ProductFeatures).to receive(:GetBooleanFeature)
           .with("globals", "default_ntp_setup").and_return(true)
         allow(Yast::Product).to receive(:FindBaseProducts)
-          .and_return(["name" => "CAASP"])
+          .and_return(["name" => "openSUSE-Tumbleweed-Kubic"])
       end
 
-      it "proposes to use a random novell pool server" do
+      it "proposes to use a random openSUSE pool server" do
         expect(Y2Caasp::Widgets::NtpServer).to receive(:new).and_wrap_original do |original, arg|
-          expect(arg.first).to match(/\A[0-3]\.novell\.pool\.ntp\.org\z/)
+          expect(arg.first).to match(/\A[0-3]\.opensuse\.pool\.ntp\.org\z/)
           original.call(arg)
         end
         subject.run
