@@ -21,7 +21,7 @@ module Y2Caasp
     #
     def title
       # TRANSLATORS: dialog title
-      _("kubeadm node configuration")
+      _("kubeadm Node Configuration")
     end
   end
 end
