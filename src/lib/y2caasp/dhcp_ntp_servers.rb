@@ -39,7 +39,7 @@ module Y2Caasp
       # interfaces e.g. using a bash command or initialize whole networking module.
       Yast::Lan.ReadWithCacheNoGUI
 
-      Yast::LanItems.dhcp_ntp_servers.values.reduce(&:concat) || []
+      Yast::LanItems.dhcp_ntp_servers.values.flatten.uniq
     end
   end
 end

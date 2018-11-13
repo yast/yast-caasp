@@ -35,9 +35,10 @@ describe Y2Caasp::KubeadmRoleDialog do
       end
 
       it "proposes to use a random openSUSE pool server" do
-        expect(Y2Caasp::Widgets::NtpServer).to receive(:new) do |s|
-          expect(s.first).to match(/\A[0-3]\.opensuse\.pool\.ntp\.org\z/)
-        end.and_call_original
+        expect(Y2Caasp::Widgets::NtpServer).to receive(:new).and_wrap_original do |original, arg|
+          expect(arg.first).to match(/\A[0-3]\.opensuse\.pool\.ntp\.org\z/)
+          original.call(arg)
+        end
         subject.run
       end
     end
