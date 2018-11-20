@@ -24,6 +24,7 @@ require "yast2/execute"
 require "installation/system_role"
 require "installation/services"
 require "cfa/chrony_conf"
+require "y2caasp/cfa/mirror_conf"
 
 module Y2SystemRoleHandlers
   # Implement finish handler for the "dashboard" role
@@ -36,6 +37,7 @@ module Y2SystemRoleHandlers
     def run
       run_activation_script
       setup_ntp
+      update_registry_conf
     end
 
   protected
@@ -68,6 +70,20 @@ module Y2SystemRoleHandlers
         chrony_conf.add_pool(server)
       end
       chrony_conf.save
+    end
+
+    def update_registry_conf
+      log.info "Updating registry mirror: " \
+               "host #{role["registry_mirror"]}"
+      return unless role["registry_mirror"]
+      mirror_conf = ::Y2Caasp::CFA::MirrorConf.new
+      mirror_conf.mirror_url = role["registry_mirror"]
+      if role["registry_certificate"]
+        mirror_conf.mirror_certificate = role["registry_certificate"].to_pem
+        fingerprint = role["registry_fingerprint"]
+        mirror_conf.mirror_fingerprint = fingerprint if fingerprint
+      end
+      mirror_conf.save
     end
 
     # Add the ntpd service to the list of services to enable

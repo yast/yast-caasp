@@ -1,0 +1,9 @@
+---
+bootstrap:
+  registries:
+  - prefix: https://registry.suse.com
+    mirrors:
+    - url: registry.suse.de
+      certificate: 
+      fingerprint: 
+      hashalgorithm: 

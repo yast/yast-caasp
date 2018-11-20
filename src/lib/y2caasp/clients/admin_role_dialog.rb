@@ -21,6 +21,7 @@
 
 require "yast"
 require "cwm/dialog"
+require "y2caasp/clients/admin_role_mirror_subdialog"
 require "y2caasp/widgets/ntp_server"
 require "y2caasp/dhcp_ntp_servers"
 
@@ -28,14 +29,17 @@ module Y2Caasp
   # This library provides a simple dialog for setting
   # the admin role specific settings:
   #   - the NTP server names
+  #   - the configuration of a mirror for registry.suse.com
   class AdminRoleDialog < CWM::Dialog
     include DhcpNtpServers
+    attr_reader :subdialog
 
     def initialize
       textdomain "caasp"
 
       Yast.import "Product"
       Yast.import "ProductFeatures"
+      @subdialog = AdminRoleMirrorSubDialog.new
       super
     end
 
@@ -53,9 +57,15 @@ module Y2Caasp
       return @content if @content
 
       @content = HSquash(
-        MinWidth(50,
+        MinWidth(
+          50,
           # preselect the servers from the DHCP response
-          Y2Caasp::Widgets::NtpServer.new(ntp_servers))
+          VBox(
+            Y2Caasp::Widgets::NtpServer.new(ntp_servers),
+            VSpacing(2),
+            @subdialog.contents
+          )
+        )
       )
     end
 

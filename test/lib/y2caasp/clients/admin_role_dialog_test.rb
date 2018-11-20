@@ -3,7 +3,9 @@
 require_relative "../../../test_helper.rb"
 require_relative "role_dialog_examples"
 require "cwm/rspec"
+require "openssl"
 
+require "y2caasp/ssl_certificate"
 require "y2caasp/clients/admin_role_dialog.rb"
 
 Yast.import "CWM"
@@ -11,6 +13,12 @@ Yast.import "Lan"
 Yast.import "Wizard"
 
 describe ::Y2Caasp::AdminRoleDialog do
+  let(:role) do
+    Installation::SystemRole.new(
+      id: "test_role", order: "100", label: "Test role", description: "Test description"
+    )
+  end
+
   describe "#run" do
     let(:ntp_servers) { [] }
 
@@ -42,6 +50,92 @@ describe ::Y2Caasp::AdminRoleDialog do
           original.call(arg)
         end
         subject.run
+      end
+    end
+
+    context "using an insecure registry" do
+      it "disables some inputs" do
+        # It seems that actual interaction with the widgets will not work in tests.
+        # Instead the expected events have to be mocked and tested if they are triggered.
+        expect(Yast::UI).to receive(:ChangeWidget).with(
+          Id(subject.subdialog.fingerprint.widget_id),
+          :Enabled,
+          false
+        )
+        expect(Yast::UI).to receive(:ChangeWidget).with(
+          Id(subject.subdialog.fingerprint_verify.widget_id),
+          :Enabled,
+          false
+        )
+        expect(Yast::UI).to receive(:ChangeWidget).with(
+          Id(subject.subdialog.mirror.widget_id),
+          :Value,
+          "http://"
+        )
+        allow(subject.subdialog.checkbox).to receive(:checked?).and_return(true)
+        allow(subject.subdialog.mirror).to receive(:value).and_return("https://")
+        subject.run
+        subject.subdialog.handle_insecure_checkbox(subject.subdialog.checkbox)
+      end
+    end
+
+    context "using an secure registry" do
+      it "enables some inputs" do
+        # It seems that actual interaction with the widgets will not work in tests.
+        # Instead the expected events have to be mocked and tested if they are triggered.
+        expect(Yast::UI).to receive(:ChangeWidget).with(
+          Id(subject.subdialog.fingerprint.widget_id),
+          :Enabled,
+          true
+        )
+        expect(Yast::UI).to receive(:ChangeWidget).with(
+          Id(subject.subdialog.fingerprint_verify.widget_id),
+          :Enabled,
+          true
+        )
+        expect(Yast::UI).to receive(:ChangeWidget).with(
+          Id(subject.subdialog.mirror.widget_id),
+          :Value,
+          "https://"
+        )
+        allow(subject.subdialog.checkbox).to receive(:checked?).and_return(false)
+        allow(subject.subdialog.mirror).to receive(:value).and_return("https://")
+        subject.run
+        subject.subdialog.handle_insecure_checkbox(subject.subdialog.checkbox)
+      end
+
+      it "can verify the registry certificate" do
+        expect(Yast::Popup).to receive(:Notify)
+        allow(Installation::SystemRole).to receive(:current_role).and_return(role)
+        allow(subject.subdialog.checkbox).to receive(:unchecked?).and_return(true)
+        allow(subject.subdialog.mirror).to receive(:value).and_return("https://test.de")
+        allow(subject.subdialog.fingerprint).to receive(:value).and_return(
+          "e75342ccce01f9e7ac3be3341a3a97618c373bb0"
+        )
+        allow(Y2Caasp::SSLCertificate).to receive(:download).and_return(
+          Y2Caasp::SSLCertificate.new(
+            OpenSSL::X509::Certificate.new(File.read(File.join(FIXTURES_PATH, "certificate.pem")))
+          )
+        )
+        subject.run
+        subject.subdialog.handle_certificate_verification(nil)
+      end
+
+      it "can verify the registry certificate" do
+        expect(Yast::Popup).to receive(:Error)
+        allow(Installation::SystemRole).to receive(:current_role).and_return(role)
+        allow(subject.subdialog.checkbox).to receive(:unchecked?).and_return(true)
+        allow(subject.subdialog.mirror).to receive(:value).and_return("https://test.de")
+        allow(subject.subdialog.fingerprint).to receive(:value).and_return(
+          "wrong fingerprint"
+        )
+        allow(Y2Caasp::SSLCertificate).to receive(:download).and_return(
+          Y2Caasp::SSLCertificate.new(
+            OpenSSL::X509::Certificate.new(File.read(File.join(FIXTURES_PATH, "certificate.pem")))
+          )
+        )
+        subject.run
+        subject.subdialog.handle_certificate_verification(nil)
       end
     end
   end

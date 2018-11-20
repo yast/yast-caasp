@@ -1,0 +1,7 @@
+---
+registries:
+- Mirrors:
+  - URL: https://registry.suse.com/
+  Prefix: https://none.none
+iptables: false
+log-level: warn

@@ -8,15 +8,21 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
 
   let(:ntp_server) { "ntp.suse.de" }
   let(:ntp_servers) { [ntp_server] }
+  let(:registry_mirror) { "registry.suse.de" }
 
   before do
     stub_const("CFA::ChronyConf::PATH", FIXTURES_PATH.join("chrony.conf").to_s)
     allow(CFA::ChronyConf).to receive(:new).and_return(ntp_conf)
+    stub_const("::Y2Caasp::CFA::MirrorConf::PATH", Dir.mktmpdir)
+    stub_const("::Y2Caasp::CFA::MirrorConf::INSTALL_SYSTEM_PATH",
+      FIXTURES_PATH.join("mirror-conf.yaml").to_s)
+    allow(::Y2Caasp::CFA::MirrorConf).to receive(:new).and_return(mirror_yaml_conf)
   end
 
   let(:role) do
     ::Installation::SystemRole.new(id: "dashboard_role", order: "100").tap do |role|
       role["ntp_servers"] = ntp_servers
+      role["registry_mirror"] = registry_mirror
     end
   end
 
@@ -28,6 +34,7 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
 
   describe "#run" do
     let(:ntp_conf) { CFA::ChronyConf.new }
+    let(:mirror_yaml_conf) { ::Y2Caasp::CFA::MirrorConf.new }
 
     before do
       allow(ntp_conf).to receive(:save)
@@ -63,6 +70,20 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
       it "does not modify NTP configuration" do
         expect(CFA::ChronyConf).to_not receive(:new)
         handler.run
+      end
+    end
+
+    context "when a registry mirror is specified" do
+      it "saves the registry mirror to the configurations" do
+        expect(mirror_yaml_conf).to receive(:save)
+        handler.run
+      end
+    end
+
+    context "when neither namespace nor host is specified" do
+      let(:registry_mirror) { nil }
+
+      it "it leaves the configuration untouched" do
       end
     end
   end
