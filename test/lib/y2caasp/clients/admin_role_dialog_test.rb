@@ -104,7 +104,7 @@ describe ::Y2Caasp::AdminRoleDialog do
         subject.subdialog.handle_insecure_checkbox(subject.subdialog.checkbox)
       end
 
-      it "can verify the registry certificate" do
+      it "can verify a valid registry certificate" do
         expect(Yast::Popup).to receive(:Notify)
         allow(Installation::SystemRole).to receive(:current_role).and_return(role)
         allow(subject.subdialog.checkbox).to receive(:unchecked?).and_return(true)
@@ -121,7 +121,7 @@ describe ::Y2Caasp::AdminRoleDialog do
         subject.subdialog.handle_certificate_verification(nil)
       end
 
-      it "can verify the registry certificate" do
+      it "can verify an invalid registry certificate" do
         expect(Yast::Popup).to receive(:Error)
         allow(Installation::SystemRole).to receive(:current_role).and_return(role)
         allow(subject.subdialog.checkbox).to receive(:unchecked?).and_return(true)
@@ -136,6 +136,28 @@ describe ::Y2Caasp::AdminRoleDialog do
         )
         subject.run
         subject.subdialog.handle_certificate_verification(nil)
+      end
+
+      it "can disallow all input if no mirror is to be setup" do
+        expect(subject.subdialog.checkbox).to receive(:disable)
+        expect(subject.subdialog.mirror).to receive(:disable)
+        expect(subject.subdialog.fingerprint).to receive(:disable)
+        expect(subject.subdialog.fingerprint_verify).to receive(:disable)
+        allow(subject.subdialog.setup_mirror).to receive(:checked?).and_return(false)
+        allow(Installation::SystemRole).to receive(:current_role).and_return(role)
+        subject.run
+        subject.subdialog.handle_mirror_setup(subject.subdialog.setup_mirror)
+      end
+
+      it "can allow all input if a mirror is to be setup" do
+        expect(subject.subdialog.checkbox).to receive(:enable)
+        expect(subject.subdialog.mirror).to receive(:enable)
+        expect(subject.subdialog.fingerprint).to receive(:enable)
+        expect(subject.subdialog.fingerprint_verify).to receive(:enable)
+        allow(subject.subdialog.setup_mirror).to receive(:checked?).and_return(true)
+        allow(Installation::SystemRole).to receive(:current_role).and_return(role)
+        subject.run
+        subject.subdialog.handle_mirror_setup(subject.subdialog.setup_mirror)
       end
     end
   end

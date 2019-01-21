@@ -30,12 +30,11 @@ module Y2Caasp
       end
 
       def opt
-        [:notify]
+        [:notify, :disabled]
       end
 
     private
 
-      # All other widgets have this
       def role
         ::Installation::SystemRole.current_role
       end

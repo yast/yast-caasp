@@ -41,17 +41,6 @@ module Y2Caasp
         _("Mirror of the SUSE container registry")
       end
 
-      def help
-        # TRANSLATORS: a help text for the controller node input field
-        _("<h3>Mirror of the SUSE container registry</h3>") +
-          # TRANSLATORS: a help text for the controller node input field
-          _("<p>Enter the host, that runs the registry mirror. " \
-            "It must have all container-images required to run CaaS Platform available.</p>" \
-            "<p>If no mirror is entered the containers will be downloaded from the " \
-            "<a href='https://registry.suse.com'>SUSE registry</a>. " \
-            "This registry must be accessible from your network.</p>")
-      end
-
       # It stores the value of the input field if validates
       #
       # @see #validate
@@ -90,6 +79,10 @@ module Y2Caasp
       def download_certificate
         return if empty_url(value)
         role["registry_certificate"] = SSLCertificate.download(value)
+      end
+
+      def opt
+        [:disabled]
       end
 
     private

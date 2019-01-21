@@ -75,6 +75,9 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
 
     context "when a registry mirror is specified" do
       it "saves the registry mirror to the configurations" do
+        role.tap do |role| 
+          role["registry_setup"] = true
+        end
         expect(mirror_yaml_conf).to receive(:save)
         handler.run
       end

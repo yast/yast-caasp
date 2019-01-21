@@ -33,6 +33,10 @@ module Y2Caasp
         role["registry_fingerprint"] = value
       end
 
+      def opt
+        [:disabled]
+      end
+
     private
 
       # All other widgets have this

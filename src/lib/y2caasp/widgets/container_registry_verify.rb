@@ -26,7 +26,7 @@ module Y2Caasp
       end
 
       def opt
-        [:notify]
+        [:notify, :disabled]
       end
 
     private
