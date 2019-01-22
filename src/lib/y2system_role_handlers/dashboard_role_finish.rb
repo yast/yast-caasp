@@ -73,7 +73,7 @@ module Y2SystemRoleHandlers
     end
 
     def update_registry_conf
-      return unless role["registry_mirror"] && role["registry_setup"]
+      return unless role["registry_setup"]
       mirror_conf = ::Y2Caasp::CFA::MirrorConf.new
       mirror_conf.mirror_url = role["registry_mirror"]
       if role["registry_certificate"]

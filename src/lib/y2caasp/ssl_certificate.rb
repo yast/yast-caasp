@@ -30,25 +30,18 @@ module Y2Caasp
 
     class << self
       def download(url)
-        return if insecure_url(url)
         ctx = OpenSSL::SSL::SSLContext.new
         sock = TCPSocket.new(url.gsub(/^https?:\/\//, ""), 443)
         ssl = OpenSSL::SSL::SSLSocket.new(sock, ctx)
         begin
           ssl.connect
-          SSLCertificate.new(ssl.peer_cert)
+          return SSLCertificate.new(ssl.peer_cert)
         rescue OpenSSL::SSL::SSLError
           # If we can't download the certificate we just pretend to have an
           # empty one. This could also use a special null-object subclass of
           # SSLCertificate
-          SSLCertificate.new(nil)
+          return SSLCertificate.new(nil)
         end
-      end
-
-    private
-
-      def insecure_url(value)
-        !(/^http:\/\// =~ value).nil?
       end
     end
 

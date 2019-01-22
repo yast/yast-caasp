@@ -3,6 +3,7 @@ require "installation/system_role"
 
 module Y2Caasp
   module Widgets
+    # Widgets allows the user to select if to configure a mirror at all or not.
     class SetupMirrorCheckBox < CWM::CheckBox
       def initialize
         @observers = []
@@ -40,7 +41,7 @@ module Y2Caasp
         [:notify]
       end
 
-      private
+    private
 
       def role
         ::Installation::SystemRole.current_role

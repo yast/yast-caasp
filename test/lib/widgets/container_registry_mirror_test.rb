@@ -118,6 +118,14 @@ describe Y2Caasp::Widgets::ContainerRegistryMirror do
       end
     end
 
+    context "when only a domain name is provided" do
+      let(:value) { "registry.suse.de" }
+
+      it "returns true" do
+        expect(widget.validate).to eq(true)
+      end
+    end
+
     context "when no value is provided" do
       let(:value) { "" }
 

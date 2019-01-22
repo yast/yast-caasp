@@ -4,6 +4,7 @@ require "net/http"
 
 require "yast"
 require "cwm/widget"
+require "y2caasp/ssl_certificate"
 require "y2caasp/widgets/container_registry_fingerprint"
 require "y2caasp/widgets/container_registry_mirror"
 require "y2caasp/widgets/container_registry_setup_mirror"
@@ -15,7 +16,7 @@ module Y2Caasp
   # Aggregate dialog for mirror configuration. It allows the user to specify the
   # mirror URL, as well as verify the certificate, should the mirror be served
   # over https
-  class AdminRoleMirrorSubDialog
+  class AdminRoleMirrorDialog < CWM::Dialog
     include Yast::UIShortcuts
     include Yast::I18n
     attr_reader :checkbox, :mirror, :fingerprint, :fingerprint_verify, :setup_mirror
@@ -46,6 +47,15 @@ module Y2Caasp
       )
     end
 
+    def run
+      ret = super()
+      if ret == :next
+        ensure_url_prefix
+        download_certificate
+      end
+      ret
+    end
+
     def handle_mirror_setup(sender)
       if sender.checked?
         enable
@@ -69,9 +79,8 @@ module Y2Caasp
     def handle_certificate_verification(_sender)
       secure = @checkbox.unchecked?
       return unless role && secure
-      # There is no focus lost event on which to download the certificate, so it
-      # might not be available here yet and must be downloaded explicitly
-      @mirror.download_certificate if role["registry_certificate"].nil?
+
+      download_certificate
 
       if role["registry_certificate"].verify_sha1_fingerprint(@fingerprint)
         Yast::Popup.Notify(
@@ -102,6 +111,24 @@ module Y2Caasp
       @mirror.disable
       @fingerprint.disable
       @fingerprint_verify.disable
+    end
+
+    # Ensure that the mirror the customer entered, starts with the correct prefix,
+    # based on `secure` or `non-secure` selection.
+    # This is required as the customer can remove the prefix from the textfield and
+    # enter the incorrect one.
+    def ensure_url_prefix
+      # If no registry is to be setup we don't need to fix the URL
+      return unless role && role["registry_setup"]
+      secure = role["registry_secure"]
+      prefix = secure ? "https://" : "http://"
+      url = role["registry_mirror"].gsub(/https?:\/\//, "")
+      role["registry_mirror"] = prefix + url
+    end
+
+    def download_certificate
+      return unless role && !role["registry_insecure"] && role["registry_mirror"]
+      role["registry_certificate"] = SSLCertificate.download(role["registry_mirror"])
     end
 
     # All other widgets have this

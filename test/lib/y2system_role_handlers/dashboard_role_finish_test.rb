@@ -9,6 +9,11 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
   let(:ntp_server) { "ntp.suse.de" }
   let(:ntp_servers) { [ntp_server] }
   let(:registry_mirror) { "registry.suse.de" }
+  let(:certificate) do
+    Y2Caasp::SSLCertificate.new(
+      OpenSSL::X509::Certificate.new(File.read(File.join(FIXTURES_PATH, "certificate.pem")))
+    )
+  end
 
   before do
     stub_const("CFA::ChronyConf::PATH", FIXTURES_PATH.join("chrony.conf").to_s)
@@ -75,9 +80,22 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
 
     context "when a registry mirror is specified" do
       it "saves the registry mirror to the configurations" do
-        role.tap do |role| 
+        role.tap do |role|
           role["registry_setup"] = true
         end
+        expect(mirror_yaml_conf).to receive(:mirror_url=)
+        expect(mirror_yaml_conf).to receive(:save)
+        handler.run
+      end
+    end
+
+    context "when a registry certificate is specified" do
+      it "saves the registry certificate to the configurations" do
+        role.tap do |role|
+          role["registry_setup"] = true
+          role["registry_certificate"] = certificate
+        end
+        expect(mirror_yaml_conf).to receive(:mirror_certificate=)
         expect(mirror_yaml_conf).to receive(:save)
         handler.run
       end

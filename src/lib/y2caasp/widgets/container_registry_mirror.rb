@@ -23,8 +23,6 @@ require "yast"
 require "cwm/widget"
 require "installation/system_role"
 
-require "y2caasp/ssl_certificate"
-
 module Y2Caasp
   module Widgets
     # This widget is responsible to validate and store the registry mirror.
@@ -49,7 +47,6 @@ module Y2Caasp
         raise("No role selected") unless role
 
         role["registry_mirror"] = value unless empty_url(value)
-        download_certificate
       end
 
       # The input field is initialized with previous stored value
@@ -74,11 +71,6 @@ module Y2Caasp
         )
 
         false
-      end
-
-      def download_certificate
-        return if empty_url(value)
-        role["registry_certificate"] = SSLCertificate.download(value)
       end
 
       def opt
