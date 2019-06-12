@@ -51,9 +51,10 @@ describe Y2SystemRoleHandlers::DashboardRoleFinish do
         handler.run
       end
 
-      it "sets the chronyd service to be enabled" do
+      it "sets the chrony services to be enabled" do
         handler.run
         expect(::Installation::Services.enabled).to include("chronyd")
+        expect(::Installation::Services.enabled).to include("chrony-wait")
       end
     end
 

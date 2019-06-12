@@ -72,8 +72,7 @@ module Y2SystemRoleHandlers
 
     # Add the ntpd service to the list of services to enable
     def enable_service
-      enabled = ::Installation::Services.enabled
-      enabled << "chronyd" unless enabled.include?("chronyd")
+      ::Installation::Services.enabled |= ["chronyd", "chrony-wait"]
     end
 
     # Dashboard role
