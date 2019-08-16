@@ -22,6 +22,10 @@
 require "yast"
 require "y2caasp/cfa/minion_master_conf"
 
+# The kubic_*_finish.rb content is identical, it's only used
+# by different system roles. So if you change here something,
+# all other files have to be changed, too.
+
 module Y2SystemRoleHandlers
   # Implement finish handler for the "kubic lb" role
   class KubicLbRoleFinish
