@@ -21,7 +21,6 @@ require "yast"
 
 module Y2Caasp
   # This module provides a functionality for reading the NTP servers
-  # from the DHCP response
   module DhcpNtpServers
     #
     # List of NTP servers from DHCP
@@ -40,6 +39,36 @@ module Y2Caasp
       Yast::Lan.ReadWithCacheNoGUI
 
       Yast::LanItems.dhcp_ntp_servers.values.flatten.uniq
+    end
+
+    #
+    # Propose the NTP servers from the DHCP response, fallback to a random
+    # machine from the ntp.org pool if enabled in control.xml.
+    #
+    # @return [Array<String>] proposed NTP servers, empty if nothing suitable found
+    #
+    def ntp_servers
+      # TODO: use Yast::NtpClient.ntp_conf if configured
+      # to better handle going back
+      servers = dhcp_ntp_servers
+      servers = ntp_fallback if servers.empty?
+
+      servers
+    end
+
+    #
+    # The fallback servers for NTP configuration
+    #
+    # @return [Array<String>] the fallback servers, empty if disabled in control.xml
+    #
+    def ntp_fallback
+      # propose the fallback when enabled in control file
+      return [] unless Yast::ProductFeatures.GetBooleanFeature("globals", "default_ntp_setup")
+
+      default_servers = Y2Network::NtpServer.default_servers
+      return [] if default_servers.empty?
+
+      [default_servers.sample.hostname]
     end
   end
 end
