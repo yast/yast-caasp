@@ -1,16 +1,33 @@
-#! /usr/bin/env rspec
+# Copyright (c) [2020] SUSE LLC
+#
+# All Rights Reserved.
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of version 2 of the GNU General Public License as published
+# by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+# more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, contact SUSE LLC.
+#
+# To contact SUSE LLC about this file by physical or electronic mail, you may
+# find current contact information at www.suse.com.
 
 require_relative "../../../test_helper.rb"
 require_relative "role_dialog_examples"
 require "cwm/rspec"
 
-require "y2caasp/clients/kubeadm_role_dialog.rb"
+require "y2caasp/clients/kubic_minion_role_dialog"
 
 Yast.import "CWM"
 Yast.import "Lan"
 Yast.import "Wizard"
 
-describe Y2Caasp::KubeadmRoleDialog do
+describe ::Y2Caasp::KubicMinionRoleDialog do
   describe "#run" do
     let(:ntp_servers) { [] }
 
@@ -26,6 +43,8 @@ describe Y2Caasp::KubeadmRoleDialog do
     include_examples "CWM::Dialog"
     include_examples "NTP from DHCP"
 
+    # Note: this is a hypothetical test, in real CaaSP the default NTP setup
+    # is currently disabled in control.xml
     context "no NTP server set in DHCP and default NTP is enabled in control.xml" do
       let(:default_servers) do
         [
@@ -42,7 +61,8 @@ describe Y2Caasp::KubeadmRoleDialog do
 
       it "proposes to use a random server from the default pool" do
         expect(Y2Caasp::Widgets::NtpServer).to receive(:new).and_wrap_original do |original, arg|
-          expect(default_servers.map(&:hostname)).to include(arg.first)
+          expect(arg.size).to eq(1)
+          expect(arg.first).to match(/suse.pool.ntp.org/)
           original.call(arg)
         end
         subject.run
