@@ -1,9 +1,11 @@
 YaST - CaaSP/Kubic Integration
 ==============================
 
-[![Travis Build](https://travis-ci.org/yast/yast-caasp.svg?branch=master)](https://travis-ci.org/yast/yast-caasp)
+[![Workflow Status](https://github.com/yast/yast-caasp/workflows/CI/badge.svg?branch=master)](
+https://github.com/yast/yast-caasp/actions?query=branch%3Amaster)
+[![Jenkins Status](https://ci.opensuse.org/buildStatus/icon?job=yast-yast-caasp-master)](
+https://ci.opensuse.org/view/Yast/job/yast-yast-caasp-master/)
 [![Coverage Status](https://img.shields.io/coveralls/yast/yast-caasp.svg)](https://coveralls.io/r/yast/yast-caasp?branch=master)
-[![Jenkins Build](http://img.shields.io/jenkins/s/https/ci.opensuse.org/yast-yast-caasp-master.svg)](https://ci.opensuse.org/view/Yast/job/yast-yast-caasp-master/)
 [![Code Climate](https://codeclimate.com/github/yast/yast-caasp/badges/gpa.svg)](https://codeclimate.com/github/yast/yast-caasp)
 
 This repository contains code which is specific for the [Containers as a Service Platform
