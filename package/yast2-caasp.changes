@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Tue Apr 20 13:51:55 UTC 2021 - Ladislav Slezák <lslezak@suse.cz>
+
+- 4.4.0
+
+-------------------------------------------------------------------
 Wed Feb 19 12:57:29 UTC 2020 - Imobach Gonzalez Sosa <igonzalezsosa@suse.com>
 
 - Rely on the new Y2Network::NtpServer class (jsc#SLE-7188).
