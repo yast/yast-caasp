@@ -18,8 +18,7 @@ describe Y2Caasp::KubeadmRoleDialog do
       allow(Yast::Wizard).to receive(:CreateDialog)
       allow(Yast::Wizard).to receive(:CloseDialog)
       allow(Yast::CWM).to receive(:show).and_return(:next)
-      allow(Yast::Lan).to receive(:ReadWithCacheNoGUI)
-      allow(Yast::LanItems).to receive(:dhcp_ntp_servers).and_return({})
+      allow(Yast::Lan).to receive(:dhcp_ntp_servers).and_return([])
       allow(Yast::ProductFeatures).to receive(:GetBooleanFeature)
     end
 
