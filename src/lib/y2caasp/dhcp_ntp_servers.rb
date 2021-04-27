@@ -29,16 +29,8 @@ module Y2Caasp
     #
     def dhcp_ntp_servers
       Yast.import "Lan"
-      Yast.import "LanItems"
 
-      # When proposing NTP servers we need to know
-      # 1) list of (dhcp) interfaces
-      # 2) network service in use
-      # We can either use networking submodule for network service handling and get list of
-      # interfaces e.g. using a bash command or initialize whole networking module.
-      Yast::Lan.ReadWithCacheNoGUI
-
-      Yast::LanItems.dhcp_ntp_servers.values.flatten.uniq
+      Yast::Lan.dhcp_ntp_servers
     end
 
     #

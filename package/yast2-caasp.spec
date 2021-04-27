@@ -17,7 +17,7 @@
 
 
 Name:           yast2-caasp
-Version:        4.4.0
+Version:        4.4.1
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -32,9 +32,9 @@ BuildRequires:  yast2-installation >= 3.2.38
 # chrony support
 Requires:       yast2-ntp-client   >= 4.0.3
 BuildRequires:  yast2-ntp-client   >= 4.0.3
-# Y2Network::NtpServer
-Requires:       yast2-network      >= 4.2.55
-BuildRequires:  yast2-network      >= 4.2.55
+# Drop Yast::LanItems
+Requires:       yast2-network      >= 4.4.7
+BuildRequires:  yast2-network      >= 4.4.7
 
 BuildRequires:  yast2-devtools     >= 3.1.39
 BuildRequires:  rubygem(%{rb_default_ruby_abi}:rspec)

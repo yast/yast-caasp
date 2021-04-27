@@ -16,8 +16,7 @@ describe ::Y2Caasp::WorkerRoleDialog do
       allow(Yast::Wizard).to receive(:CreateDialog)
       allow(Yast::Wizard).to receive(:CloseDialog)
       allow(Yast::CWM).to receive(:show).and_return(:next)
-      allow(Yast::Lan).to receive(:ReadWithCacheNoGUI)
-      allow(Yast::LanItems).to receive(:dhcp_ntp_servers).and_return({})
+      allow(Yast::Lan).to receive(:dhcp_ntp_servers).and_return([])
     end
 
     include_examples "CWM::Dialog"
