@@ -3,8 +3,7 @@ YaST - CaaSP/Kubic Integration
 
 [![Workflow Status](https://github.com/yast/yast-caasp/workflows/CI/badge.svg?branch=master)](
 https://github.com/yast/yast-caasp/actions?query=branch%3Amaster)
-[![Jenkins Status](https://ci.opensuse.org/buildStatus/icon?job=yast-yast-caasp-master)](
-https://ci.opensuse.org/view/Yast/job/yast-yast-caasp-master/)
+[![OBS](https://github.com/yast/yast-caasp/actions/workflows/submit.yml/badge.svg)](https://github.com/yast/yast-caasp/actions/workflows/submit.yml)
 [![Coverage Status](https://img.shields.io/coveralls/yast/yast-caasp.svg)](https://coveralls.io/r/yast/yast-caasp?branch=master)
 [![Code Climate](https://codeclimate.com/github/yast/yast-caasp/badges/gpa.svg)](https://codeclimate.com/github/yast/yast-caasp)
 
