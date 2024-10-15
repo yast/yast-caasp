@@ -1,47 +1,11 @@
-YaST - CaaSP/Kubic Integration
-==============================
+Obsoleted Module
+================
 
-[![Workflow Status](https://github.com/yast/yast-caasp/workflows/CI/badge.svg?branch=master)](
-https://github.com/yast/yast-caasp/actions?query=branch%3Amaster)
-[![OBS](https://github.com/yast/yast-caasp/actions/workflows/submit.yml/badge.svg)](https://github.com/yast/yast-caasp/actions/workflows/submit.yml)
-[![Coverage Status](https://img.shields.io/coveralls/yast/yast-caasp.svg)](https://coveralls.io/r/yast/yast-caasp?branch=master)
-[![Code Climate](https://codeclimate.com/github/yast/yast-caasp/badges/gpa.svg)](https://codeclimate.com/github/yast/yast-caasp)
+**This module is obsoleted and is not developed anymore.**
 
-This repository contains code which is specific for the [Containers as a Service Platform
-(CaaSP)](https://www.suse.com/documentation/suse-caasp/) product and
-the [openSUSE Kubic](https://kubic.opensuse.org/) project.
+GIT
+---
 
+If you want to see the last state check the [*master_old*](../master_old) branch.
 
-Provided Functionality
-======================
-
-This module provides specific configuration options displayed during the SUSE CaaSP and
-openSUSE Kubic installation.
-
-See [the generated yardoc documentation](http://www.rubydoc.info/github/yast/yast-caasp) at rubydoc.info.
-
-
-Getting the Sources
-===================
-
-To get the source code, clone the GitHub repository:
-
-    $ git clone https://github.com/yast/yast-caasp.git
-
-If you want to contribute into the project you can
-[fork](https://help.github.com/articles/fork-a-repo/) the repository and clone your fork.
-
-
-Development
-===========
-
-This module is developed as part of YaST. See the
-[development documentation](http://yastgithubio.readthedocs.org/en/latest/development/).
-
-
-Contact
-=======
-
-If you have any question, feel free to ask at the [development mailing
-list](http://lists.opensuse.org/yast-devel/) or at the
-[#yast](https://webchat.freenode.net/?channels=%23yast) IRC channel on freenode.
+Use the [*SLE-15-GA*](../SLE-15-GA) branch for SLE-15 maintenance.
